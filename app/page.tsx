@@ -1,113 +1,131 @@
+'use client';
+import Testimonials from "@/components/Testimonials";
+import Link from "next/link";
+import { useScroll, motion, Variants } from "framer-motion";
+import Header from "@/components/Header";
 import Image from "next/image";
+import { useRef } from "react";
+import Footer from "@/components/Footer";
 
 export default function Home() {
+  const { scrollYProgress } = useScroll();
+  const scrollVariants : Variants = {
+    offscreen: {
+      opacity: 0,
+      y: -100,
+    },
+    onscreen: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  }
+  const scrollRef = useRef<HTMLDivElement>(null);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <div className="w-full">
+        <Header progress={scrollYProgress}/>
+        <motion.div className="h-screen flex flex-col items-center justify-center gap-14" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
+            <h1 className="text-5xl font-bold">GetHired.com</h1>
+            <p className="text-2xl text-slate-500">Where startups and job seekers connect</p>
+            <div className="w-2/5 flex items-center justify-between">
+                <Link href='/' className="bg-slate-800 text-white rounded-xl text-lg px-6 py-4">Find your next hire</Link>
+                <Link href='/' className="border border-slate-500 rounded-xl text-lg px-6 py-4">Find your next job</Link>
+            </div>
+        </motion.div>
+        <motion.div className="px-14 mb-10" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
+          <p className="font-bold mb-2">Quotes</p>
+          <h2 className="text-3xl font-bold mb-6">From our users</h2>
+          <Testimonials />
+        </motion.div>
+        <motion.div className="w-full grid grid-cols-2 px-14 mb-10" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
+          <div className="px-8 py-6 flex flex-col gap-10">
+            <h3 className="font-bold">Got talent?</h3>
+            <h2 className="font-bold text-4xl">Why job seekers love us</h2>
+            <div className="flex flex-col text-sm h-4/5 justify-between" ref={scrollRef}>
+              <motion.div className="flex gap-6 items-center" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
+                <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                  <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/646574e6df60830cc7c2b88b_stairs-up.svg' alt="" width={30} height={30} className="m-auto"/>
+                </div>
+                <p className="w-11/12">
+                  Connect directly with founders at top startups - no third party recruiters allowed.
+                </p>
+              </motion.div>
+              <motion.div className="flex gap-6 items-center" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
+                <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                  <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/646574e63b04b79dd28c1ca3_books.svg' alt="" width={30} height={30} className="m-auto"/>
+                </div>
+                <p className="w-11/12">
+                  Everything you need to know, all upfront. View salary, stock options, and more before applying.
+                </p>
+              </motion.div>
+              <motion.div className="flex gap-6 items-center" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
+                <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                  <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/646574e670c0dd6f22eee061_tap.svg' alt="" width={30} height={30} className="m-auto"/>
+                </div>
+                <p className="w-11/12">
+                  Say goodbye to cover letters - your profile is all you need. One click to apply and you&apos;re done.
+                </p>
+              </motion.div>
+              <motion.div className="flex gap-6" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
+                <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                  <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/646574e7342fe2d5b929e48c_stars.svg' alt="" width={30} height={30} className="m-auto"/>
+                </div>
+                <p className="w-11/12">
+                  Unique jobs at startups and tech companies you can&apos;t find anywhere else.
+                </p>
+              </motion.div>
+            </div>
+            <div className="flex gap-6 mt-auto">
+              <Link href='/' className="px-6 py-2 border border-slate-400 rounded-lg">Learn more</Link>
+              <Link href='/' className="px-6 py-2 border bg-black text-white rounded-lg">Sign up</Link>
+            </div>
+          </div>
+          <div className="bg-red-50 px-8 py-6 flex flex-col gap-10">
+            <h3 className="font-bold">Need talent?</h3>
+            <h2 className="font-bold text-4xl">Why recruiters love us</h2>
+            <div className="flex flex-col text-sm gap-6">
+              <div className="flex gap-6 ">
+                <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                  <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/646574e6df60830cc7c2b88b_stairs-up.svg' alt="" width={30} height={30} className="m-auto"/>
+                </div>
+                <p className="w-11/12">
+                  Tap into a community of 10M+ engaged, startup-ready candidates.
+                </p>
+              </div>
+              <div className="flex gap-6 items-center">
+                <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                  <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/646574e63b04b79dd28c1ca3_books.svg' alt="" width={30} height={30} className="m-auto"/>
+                </div>
+                <p className="w-11/12">
+                  Everything you need to kickstart your recruiting — set up job posts, company branding, and HR tools within 10 minutes, all for free.
+                </p>
+              </div>
+              <div className="flex gap-6 items-center">
+                <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                  <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/646574e670c0dd6f22eee061_tap.svg' alt="" width={30} height={30} className="m-auto"/>
+                </div>
+                <p className="w-11/12">
+                  A free applicant tracking system, or free integration with any ATS you may already use.
+                </p>
+              </div>
+              <div className="flex gap-6 items-center">
+                <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                  <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/646574e7342fe2d5b929e48c_stars.svg' alt="" width={30} height={30} className="m-auto"/>
+                </div>
+                <p className="w-11/12">
+                  Let us handle the heavy-lifting with RecruiterCloud. Our new AI-Recruiter scans 500M+ candidates, filters it down based on your unique calibration, and schedules your favorites on your calendar in a matter of days.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-6">
+              <Link href='/' className="px-6 py-2 border border-slate-400 rounded-lg">Learn more</Link>
+              <Link href='/' className="px-6 py-2 border bg-black text-white rounded-lg">Sign up</Link>
+            </div>
+          </div>
+        </motion.div>
+        <Footer />
+    </div>
   );
 }
