@@ -1,12 +1,22 @@
 'use client';
 import Link from 'next/link'
 import { useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
 
 const Page = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const {register} = useAuth();
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if(password!== confirmPassword){
+      alert('Passwords do not match');
+      return;
+    }
+    register({username: name, email, password, type: 'candidate'});
+  }
   return (
     <div className='w-screen h-screen flex items-center justify-center'>
         <div className='w-1/3 flex flex-col h-5/6 justify-between'>
@@ -30,7 +40,7 @@ const Page = () => {
                 </div>
             </form>
             <div className='w-full flex flex-col items-center gap-3'>
-                <button className='bg-slate-700 text-white rounded-md px-4 py-2 w-1/3'>Signup</button>
+                <button className='bg-slate-700 text-white rounded-md px-4 py-2 w-1/3' onClick={handleSubmit}>Signup</button>
                 <p className='text-sm'>Already have an account? <Link href='/account/login/candidate' className='underline text-blue-500'>Sign in</Link></p>
             </div>
         </div>
