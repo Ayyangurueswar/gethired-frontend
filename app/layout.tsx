@@ -27,6 +27,7 @@ export default function RootLayout({
           </NotificationProvider>
         </AuthProvider>
       </body>
+      <div id="modal-root"></div>
     </html>
   );
 }

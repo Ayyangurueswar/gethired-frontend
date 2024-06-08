@@ -7,7 +7,7 @@ const LatestJobs =  () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch(`${API_URL}/api/jobs?populate=*`)
+    fetch(`${API_URL}/api/jobs?pagination[limit]=3&populate=*`)
      .then(res => res.json())
      .then((data) => {setJobs(data.data); setLoading(false)})
      .catch((err) => {console.log(err); setLoading(false)});

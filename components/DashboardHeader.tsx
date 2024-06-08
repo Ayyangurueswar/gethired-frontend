@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { AnimatePresence, MotionValue, motion } from 'framer-motion'
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import { useNotifs } from '@/context/NotificationContext';
 
 const DashboardHeader = ({progress}: {
     progress: MotionValue<number>
@@ -11,10 +12,12 @@ const DashboardHeader = ({progress}: {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { logout, user } = useAuth();
+  const {addNotification} = useNotifs()
   const handleLogout = (e: any) => {
     e.preventDefault();
     logout();
     router.push('/');
+    addNotification({content: 'Logged out successfully', type: 'success'});
   }
   return (
     <>
@@ -30,12 +33,14 @@ const DashboardHeader = ({progress}: {
                     <AnimatePresence>
                         {
                             isOpen && (
-                                <motion.div className='absolute top-12 -right-2 px-6 py-4 flex flex-col border rounded-md border-slate-600 overflow-hidden' initial={{y: -100, opacity: 0}} animate={{y: 0, opacity: 1}} exit={{y: -400, opacity: 0}}>
+                                <motion.div className='absolute top-12 -right-2 px-6 py-4 flex flex-col border rounded-md border-slate-600 overflow-hidden bg-white' initial={{y: -100, opacity: 0}} animate={{y: 0, opacity: 1}} exit={{y: -400, opacity: 0}}>
                                     <p className='font-semibold text-lg'>{user.username}</p>
                                     <p className='texxt-slate-500 text-sm'>{user.email}</p>
                                     <hr className='w-full h-0.5 bg-slate-400 my-2'/>
                                     <div className='flex flex-col gap-2'>
-                                        {user.type === 'candidate' ? <Link href='/updateProfile/candidate' className='hover:text-orange-500 transition-colors'>Update profile</Link> : <Link href='/updateProfile/recruiter' className='hover:text-orange-500 transition-colors'>Update profile</Link>}
+                                        <Link href={`/updateProfile/${user.type}`} className='hover:text-orange-500 transition-colors'>Update profile</Link>
+                                        <hr className='w-full h-0.5 bg-slate-400'/>
+                                        <Link href={`/account/dashboard/${user.type}`} className='hover:text-orange-500 transition-colors'>Go to dashboard</Link>
                                         <hr className='w-full h-0.5 bg-slate-400'/>
                                         <button onClick={handleLogout} className='text-left hover:text-orange-500 transition-colors'>Logout</button>
                                     </div>

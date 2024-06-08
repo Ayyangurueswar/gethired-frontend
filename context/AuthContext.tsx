@@ -11,7 +11,20 @@ const AuthContext = createContext({
         username: string;
         email: string;
         password: string;
-        type: string;
+        type: 'candidate' | 'recruiter';
+        contact: string;
+        location: string;
+        experience: string;
+        skills: string;
+    }) => {},
+    updateDetails: (userDetails: {
+        contact: string;
+        location: string;
+        experience?: string;
+        skills?: string;
+        about?: string;
+        username: string;
+        perks?: string;
     }) => {},
     login: ({email, password}: {email: string, password: string}) => {},
     loginRecruiter: ({email, password}: {email: string, password: string}) => {},
@@ -30,14 +43,18 @@ export const AuthProvider = ({ children }: {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
     useEffect(() => {
-        checkUserLoggedIn();
+        checkUserLoggedIn().then(() => {setLoading(false)})
     }, []);
 
     const register = async (user: {
         username: string;
         email: string;
         password: string;
-        type: string;
+        type: 'candidate' | 'recruiter';
+        contact: string;
+        location: string;
+        experience: string;
+        skills: string;
     }) => {
         const res = await fetch(`${NEXT_URL}/api/register`, {
             method: 'POST',
@@ -57,7 +74,7 @@ export const AuthProvider = ({ children }: {
             }
         }
         else{
-            setError(data.error);
+            return data.error;
         }
     }
 
@@ -118,8 +135,34 @@ export const AuthProvider = ({ children }: {
     }
 
     const logout = async () => {
-        deleteCookie();
-        setUser(null);
+        await deleteCookie();
+    }
+
+    const updateDetails = async (userDetails: {
+        contact: string;
+        location: string;
+        experience?: string;
+        skills?: string;
+        about?: string;
+        username: string;
+        perks?: string;
+    }) => {
+        const req = {id: user.id, body: userDetails};
+        const res = await fetch(`${NEXT_URL}/api/updateDetails`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(req)
+        })
+        const data = await res.json();
+        if(res.ok){
+            setUser(data.user);
+            router.push(`/account/dashboard/${data.user.type}`);
+        }
+        else{
+            return data.error;
+        }
     }
 
     const checkUserLoggedIn = async () => {
@@ -131,11 +174,10 @@ export const AuthProvider = ({ children }: {
         else{
             setUser(null);
         }
-        setLoading(false);
     }
 
     return (
-        <AuthContext.Provider value={{user, error, register, login, logout, loginRecruiter}}>
+        <AuthContext.Provider value={{user, error, register, login, logout, loginRecruiter, updateDetails}}>
             {!loading && children}
         </AuthContext.Provider>
     )
