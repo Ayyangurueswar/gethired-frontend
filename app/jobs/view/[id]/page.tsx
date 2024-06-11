@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";
 import Modal from "@/components/Modal";
 import ApplicationModal from "@/components/ApplicationModal";
+import { useSearchParams } from "next/navigation";
 
 const Page = ({params}: {
     params: {
@@ -15,6 +16,8 @@ const Page = ({params}: {
     }
 }) => {
   const {user} = useAuth();
+  const searchParams = useSearchParams();
+  const applied = searchParams.get('applied');
   const [jobDetails, setJobDetails] = useState();
   const [loading, setLoading] = useState<boolean>(true);
   const [show, setShow] = useState(false);
@@ -46,7 +49,7 @@ const Page = ({params}: {
               <div>
                 <h2 className="text-lg mb-3">Job description:</h2>
                 {
-                  jobDetails.description.map((desc) => desc.children.map((child: string, index: number) => child.text === '' ? <br key={index}/> : <p key={index}>{child.text}</p>))
+                  jobDetails.jobDescription.map((desc) => desc.children.map((child, index: number) => child.text === '' ? <br key={index}/> : <p key={index}>{child.text}</p>))
                 }
                 <div className="flex w-full gap-5 items-center mt-5">
                   <p>Skills required: </p>
@@ -57,12 +60,14 @@ const Page = ({params}: {
                   </div>
                 </div>
               </div>
-              <motion.button className="mb-6 mx-auto px-6 py-3 text-white bg-slate-800 rounded-lg" whileTap={{scale: 0.9}} whileHover={{scale: 1.1}} onClick={() => {setShow(true)}}>Apply now</motion.button>
+              <motion.button className="mb-6 mx-auto px-6 py-3 text-white bg-slate-800 rounded-lg" whileTap={{scale: 0.9}} whileHover={{scale: 1.1}} onClick={() => {setShow(true)}} disabled={applied === 'true'}>
+                {applied === 'true' ? 'Already applied' : 'Apply now'}
+              </motion.button>
           </div>
         )
       }
       <Modal show={show} onClose={() => {setShow(false)}}>
-        <ApplicationModal jobDetails={jobDetails} user={user}/>
+        <ApplicationModal jobDetails={jobDetails} user={user} id={params.id}/>
       </Modal>
       <Footer />
     </div>

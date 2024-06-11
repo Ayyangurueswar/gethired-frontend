@@ -22,7 +22,7 @@ const Notifications = () => {
         {notifications.map((notification, i) => (
             <AnimatePresence key={i+100}>
               <motion.div key={i} positionTransition initial={{ opacity: 0, y: 50, scale: 0.3 }} animate={{ opacity: 1, y: 0, scale: 1 }}
-                 exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }} className='px-5 py-3 relative text-white' style={{backgroundColor: getBgColor(notification.type)}}>
+                 exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }} className='px-5 py-3 relative z-10 text-white' style={{backgroundColor: getBgColor(notification.type)}}>
                 <p>{notification.content}</p>
                 <button className='absolute top-1 right-2 text-sm' onClick={() => {removeNotification(i)}}>X</button>
               </motion.div>

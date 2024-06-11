@@ -130,7 +130,7 @@ export const AuthProvider = ({ children }: {
             router.push('/account/dashboard/recruiter');
         }
         else{
-            setError(data.error);
+            return data.error;
         }
     }
 

@@ -2,14 +2,19 @@
 import Link from 'next/link'
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useNotifs } from '@/context/NotificationContext';
 
 const Page = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { loginRecruiter } = useAuth();
+  const {addNotification} = useNotifs()
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    loginRecruiter({email, password});
+    const error = loginRecruiter({email, password});
+    if(error){
+      addNotification({content: error, type: 'error'});
+    }
   }
   return (
     <div className='w-screen h-screen flex items-center justify-center'>
@@ -18,11 +23,11 @@ const Page = () => {
             <form className='flex flex-col gap-4'>
                 <div className='flex flex-col'>
                   <label htmlFor='email' className='mb-2'>Email or username</label>
-                  <input id='email' className='border border-slate-500 rounded-md px-4 py-2' value={email} onChange={(e) => {setEmail(e.target.value)}}/>
+                  <input id='email' className='border border-slate-500 rounded-md px-4 py-2 outline-none' value={email} onChange={(e) => {setEmail(e.target.value)}}/>
                 </div>
                 <div className='flex flex-col'>
                   <label htmlFor='password' className='mb-2'>Password</label>
-                  <input type='password' id='password' className='border border-slate-500 rounded-md px-4 py-2' value={password} onChange={(e) => {setPassword(e.target.value)}}/>
+                  <input type='password' id='password' className='border border-slate-500 rounded-md px-4 py-2 outline-none' value={password} onChange={(e) => {setPassword(e.target.value)}}/>
                 </div>
             </form>
             <div className='w-full flex flex-col items-center gap-3'>
