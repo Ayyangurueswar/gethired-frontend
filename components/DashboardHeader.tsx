@@ -21,7 +21,7 @@ const DashboardHeader = ({progress}: {
   }
   return (
     <>
-        <div className="w-full px-14 py-4 flex items-center justify-between fixed bg-white z-10">
+        <div className="w-full px-14 py-4 flex items-center justify-between fixed bg-white">
             <h1 className="text-3xl">GetHired</h1>
             <div className='flex items-center w-1/3 justify-between'>
                 {user.type === 'candidate' ? <Link href='/jobs/view'>View jobs</Link> : <Link href='/jobs/post'>Post jobs</Link>}

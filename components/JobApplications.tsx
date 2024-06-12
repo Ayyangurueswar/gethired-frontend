@@ -56,7 +56,6 @@ const JobApplications = ({jwt}: {
     const filtered = jobs.filter((job) => {
       const applyDate = new Date(job.applyBy).getTime();
       const searchDate = new Date(date).getTime();
-      console.log(applyDate, searchDate)
       return applyDate <= searchDate;
     });
     setFilteredJobs(filtered);

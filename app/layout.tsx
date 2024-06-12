@@ -28,8 +28,8 @@ export default function RootLayout({
             <Notifications />
           </NotificationProvider>
         </AuthProvider>
+        <div id="modal-root"></div>
       </body>
-      <div id="modal-root"></div>
     </html>
   );
 }
