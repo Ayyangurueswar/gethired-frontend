@@ -7,8 +7,7 @@ export async function PUT(request){
         return Response.json({error: "Unauthorized"}, {status: 403});
     }
     const res = await request.json();
-    console.log(res.body);
-    const strapiRes = await fetch(`${API_URL}/api/users/${res.id}`, {
+    const strapiRes = await fetch(`${API_URL}/api/users/${res.id}?populate=*`, {
         method: 'PUT',
         headers: {
             Authorization: `Bearer ${token.value}`,
@@ -17,7 +16,6 @@ export async function PUT(request){
         body: JSON.stringify(res.body),
     });
     const user = await strapiRes.json();
-    console.log(user);
     if(strapiRes.ok){
         return Response.json({user: user}, {status: 200});
     }

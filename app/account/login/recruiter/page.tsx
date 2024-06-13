@@ -2,19 +2,14 @@
 import Link from 'next/link'
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { useNotifs } from '@/context/NotificationContext';
 
 const Page = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { loginRecruiter } = useAuth();
-  const {addNotification} = useNotifs()
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const error = loginRecruiter({email, password});
-    if(error){
-      addNotification({content: error, type: 'error'});
-    }
+    loginRecruiter({email, password});
   }
   return (
     <div className='w-screen h-screen flex items-center justify-center'>

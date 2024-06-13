@@ -3,6 +3,7 @@ import { useContext, useState, useEffect, createContext } from "react";
 import { useRouter } from "next/navigation";
 import { NEXT_URL } from "@/config";
 import { deleteCookie } from "@/actions/action";
+import { Descendant } from "slate";
 
 const AuthContext = createContext({
     user: null,
@@ -22,9 +23,9 @@ const AuthContext = createContext({
         location: string;
         experience?: string;
         skills?: string;
-        about?: string;
+        about?: Descendant[];
         username: string;
-        perks?: string;
+        url?: string;
     }) => {},
     login: ({email, password}: {email: string, password: string}) => {},
     loginRecruiter: ({email, password}: {email: string, password: string}) => {},
@@ -74,7 +75,7 @@ export const AuthProvider = ({ children }: {
             }
         }
         else{
-            return data.error;
+            alert(`Error: ${data.error}`);
         }
     }
 
@@ -103,7 +104,7 @@ export const AuthProvider = ({ children }: {
             }
         }
         else{
-            setError(data.error);
+            alert(`Error ${data.error}`);
         }
     }
 
@@ -130,7 +131,7 @@ export const AuthProvider = ({ children }: {
             router.push('/account/dashboard/recruiter');
         }
         else{
-            return data.error;
+            alert(`Error: ${data.error}`)
         }
     }
 
@@ -143,9 +144,9 @@ export const AuthProvider = ({ children }: {
         location: string;
         experience?: string;
         skills?: string;
-        about?: string;
+        about?: Descendant[];
         username: string;
-        perks?: string;
+        url?: string;
     }) => {
         const req = {id: user.id, body: userDetails};
         const res = await fetch(`${NEXT_URL}/api/updateDetails`, {
@@ -161,7 +162,7 @@ export const AuthProvider = ({ children }: {
             router.push(`/account/dashboard/${data.user.type}`);
         }
         else{
-            return data.error;
+            alert(`Error updating details: ${data.error}`)
         }
     }
 

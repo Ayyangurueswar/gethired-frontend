@@ -6,7 +6,7 @@ export async function GET() {
     if(!token){
         return Response.json({error: "Unauthorized"}, {status: 403});
     }
-    const strapiRes = await fetch(`${API_URL}/api/users/me`, {
+    const strapiRes = await fetch(`${API_URL}/api/users/me?populate=*`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token.value}`

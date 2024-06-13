@@ -25,11 +25,7 @@ const UpdateProfile = ({username, email, password, toggleDetails}: {
   }
   const handleSubmit = () => {
     const skillList = skills.join(',');
-    const error = register({username, email, password, type: 'candidate', contact, location, experience, skills: skillList});
-    if(error){
-      addNotification({content: error, type: 'error'});
-      return;
-    }
+    register({username, email, password, type: 'candidate', contact, location, experience, skills: skillList});
     if(contact === '' || location === '' || experience === '' || skills.length === 0){
       addNotification({content: 'You can update your details in the update profile section', type: 'info'});
     }

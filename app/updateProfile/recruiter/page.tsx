@@ -1,5 +1,5 @@
 import { getJWT } from "@/actions/action"
-import UpdateProfileCandidate from "@/components/UpdateProfileCandidate";
+import UpdateProfileRecruiter from "@/components/UpdateProfileRecruiter";
 
 const page = async () => {
   const token = await getJWT();
@@ -8,7 +8,7 @@ const page = async () => {
     return;
   }
   return (
-    <UpdateProfileCandidate jwt={token.value}/>
+    <UpdateProfileRecruiter jwt={token.value}/>
   )
 }
 

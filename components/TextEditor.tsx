@@ -14,17 +14,17 @@ declare module 'slate' {
   }
 }
 
-const initialValue: Descendant[] = [
+const TextEditor = ({setDescription, value}: {
+    setDescription: React.Dispatch<React.SetStateAction<Descendant[]>>,
+    value?: Descendant[]
+}) => {
+  const [editor] = useState(() => withReact(createEditor()));
+  const initialValue: Descendant[] = value || [
     {
       type: 'paragraph',
       children: [{ text: 'A line of text in a paragraph.' }],
     },
-]
-
-const TextEditor = ({setDescription}: {
-    setDescription: React.Dispatch<React.SetStateAction<Descendant[]>>
-}) => {
-  const [editor] = useState(() => withReact(createEditor()));
+  ]
   return (
     <Slate editor={editor} initialValue={initialValue}
     onChange={(value) => {

@@ -12,7 +12,7 @@ const Page = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [detailsFilled, setDetailsFilled] = useState(true);
   const {addNotification} = useNotifs();
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     if(name === '' || email === '' || password === '' || confirmPassword === ''){
       addNotification({content: 'Please fill all the details', type: 'error'});

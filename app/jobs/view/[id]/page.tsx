@@ -23,10 +23,11 @@ const Page = ({params}: {
   const [show, setShow] = useState(false);
   const {scrollYProgress} = useScroll();
   useEffect(() => {
-    fetch(`${API_URL}/api/jobs/${params.id}?populate=*`).then((res) => res.json()).then((data) => setJobDetails(data.data.attributes))
+    fetch(`${API_URL}/api/jobs/${params.id}?populate=*`).then((res) => res.json()).then((data) => {setJobDetails(data.data.attributes)})
     .catch((e) => console.log(e)).finally(() => setLoading(false));
   }, []);
   const userSkills = user.skills ? user.skills.split(',').map((skill) => skill.toLowerCase()) : []; 
+  console.log(jobDetails);
   return (
     <div className="w-full overflow-y-auto">
       {!show && <DashboardHeader progress={scrollYProgress}/>}
@@ -60,6 +61,9 @@ const Page = ({params}: {
                   </div>
                 </div>
               </div>
+              {/* <div>
+                <h2>About {jobDetails.postedBy.username}</h2>
+              </div> */}
               <motion.button className="mb-6 mx-auto px-6 py-3 text-white bg-slate-800 rounded-lg" whileTap={{scale: 0.9}} whileHover={{scale: 1.1}} onClick={() => {setShow(true)}} disabled={applied === 'true'}>
                 {applied === 'true' ? 'Already applied' : 'Apply now'}
               </motion.button>

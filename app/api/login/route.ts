@@ -3,7 +3,7 @@ import { serialize } from "cookie";
 
 export async function POST(request) {
     const res = await request.json();
-    const strapiRes = await fetch(`${API_URL}/api/auth/local`, {
+    const strapiRes = await fetch(`${API_URL}/api/auth/local?populate=*`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

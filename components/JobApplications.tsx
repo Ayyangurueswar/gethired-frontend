@@ -6,6 +6,7 @@ import { API_URL } from '@/config';
 import Image from 'next/image';
 import Link from 'next/link';
 import Footer from './Footer';
+import RecruiterApplicationView from './RecruiterApplicationView';
 
 const JobApplications = ({jwt}: {
     jwt: string,
@@ -105,18 +106,8 @@ const JobApplications = ({jwt}: {
       </form>
       <div className="w-full px-14 flex flex-col gap-6 my-10">
             {
-                loading ? <p className="text-center text-3xl">Loading</p> : filteredJobs.length > 0 ? filteredJobs.map((job) => {
-                    return (
-                        <div key={job.id} className="w-full flex items-center justify-between px-10 py-8 shadow-md rounded-md shadow-slate-600 hover:scale-105 transition border border-slate-700">
-                            <h3 className="text-2xl font-semibold w-1/3">{job.title}</h3>
-                            <div className="w-2/5 flex items-center justify-between">
-                                <p className="text-gray-500 w-3/4 overflow-ellipsis flex items-center"><Image src='/locaion-icon.png' className="inline-block mr-2" alt="" width={20} height={20}/><p className="overflow-hidden whitespace-nowrap text-ellipsis">{job.location}</p></p>
-                                <p className="text-gray-500 w-1/2"><Image src='/icons8-receive-cash-50.png' className="inline-block mr-2" alt="" width={20} height={20}/>&#8377; {job.stipend}</p>
-                            </div>
-                            <Link href={`/applications/review/${job.id}`}>Review applications</Link>
-                        </div>
-                    )
-                }) : <p className="text-center text-3xl">No matching results</p>
+                loading ? <p className="text-center text-3xl">Loading</p> : filteredJobs.length > 0 ? filteredJobs.map((job) => 
+                <RecruiterApplicationView job={job} key={job.id} jwt={jwt}/>): <p className="text-center text-3xl">No matching results</p>
             }
       </div>
       <Footer />

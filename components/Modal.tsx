@@ -17,7 +17,7 @@ const Modal = ({show, onClose, children}: {
     {show ? (
       <motion.div className="w-full h-full bg-black bg-opacity-70 flex flex-col justify-center 
       fixed top-0 left-0" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
-          <motion.div className="bg-white w-3/4 h-[90%] self-center p-5 z-50 rounded-lg" initial={{y: -200}} animate={{y: 0}} exit={{y: -200}}>
+          <motion.div className="bg-white max-w-3/4 max-h-[90%] self-center p-5 z-50 rounded-lg" initial={{y: -200}} animate={{y: 0}} exit={{y: -200}}>
             <div className="w-full flex justify-end">
               <button onClick={(e) => {
                   e.preventDefault();

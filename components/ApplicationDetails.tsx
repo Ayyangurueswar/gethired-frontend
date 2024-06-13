@@ -1,17 +1,25 @@
 'use client';
 import React, { useEffect, useState } from 'react'
-import { useScroll } from 'framer-motion';
+import { useScroll, motion } from 'framer-motion';
 import DashboardHeader from './DashboardHeader';
 import { API_URL } from '@/config';
 import Image from 'next/image';
 import Link from 'next/link';
+import Modal from './Modal';
+import { useNotifs } from '@/context/NotificationContext';
+import Footer from './Footer';
 
 const ApplicationDetails = ({jwt, id}: {
     jwt: string,
     id: string,
 }) => {
   const { scrollYProgress } = useScroll();
-  const [applicationDetails, setApplicationDetails] = useState({});
+  const [applicationDetails, setApplicationDetails] = useState<Object>({});
+  const [loading, setLoading] = useState(true);
+  const [shortlist, setShortlist] = useState(false);
+  const [reject, setReject] = useState(false);
+  const [remove, setRemove] = useState(false);
+  const {addNotification} =  useNotifs()
   useEffect(() => {
     fetch(`${API_URL}/api/applications/${id}?populate=*`, {
         method: 'GET',
@@ -20,13 +28,85 @@ const ApplicationDetails = ({jwt, id}: {
         }
     }).then((res) => res.json()).then((data) => {
         setApplicationDetails(data.data.attributes);
+        setLoading(false);
     })
   }, [])
-  console.log(applicationDetails);
+  const handleShortList = async () => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('data', JSON.stringify({
+        'status': 'Shortlisted'
+    }))
+    const res = await fetch(`${API_URL}/api/applications/${applicationDetails.id}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${jwt}`
+        },
+        body: formData
+    });
+    const data = await res.json();
+    setLoading(false);
+    if(res.ok){
+        setShortlist(false);
+        location.reload();
+        addNotification({content: 'Candidate shortlisted', type: 'success'});
+    }
+    else{
+        addNotification({content: `Something went wrong: ${data.error.message}`, type: 'error'});
+    }
+  }
+  const handleReject = async () => {
+    setLoading(true);
+    const res = await fetch(`${API_URL}/api/applications/${applicationDetails.id}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${jwt}`
+        },
+    });
+    const data = await res.json();
+    setLoading(false);
+    if(res.ok){
+        setReject(false);
+        location.reload();
+        addNotification({content: 'Candidate removed', type: 'success'});
+    }
+    else{
+        addNotification({content: `Something went wrong: ${data.error.message}`, type: 'error'});
+    }
+  }
+  const handleRemove = async () => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('data', JSON.stringify({
+      'status': 'Under review',
+    }))
+    const res = await fetch(`${API_URL}/api/applications/${applicationDetails.id}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${jwt}`
+        },
+        body: formData
+    });
+    const data = await res.json();
+    setLoading(false);
+    if(res.ok){
+        setRemove(false);
+        location.reload();
+        addNotification({content: 'Candidate removed from shortlist', type: 'success'});
+    }
+    else{
+        addNotification({content: `Something went wrong: ${data.error.message}`, type: 'error'});
+    }
+  }
+  if(loading){
+    return (
+        <p>Loading...</p>
+    )
+  }
   return (
     <div className='w-full'>
         <DashboardHeader progress={scrollYProgress}/>
-        <div className='flex flex-col gap-6 px-20 w-full'>
+        <div className='flex flex-col gap-6 px-20 w-full min-h-screen'>
             <div className='flex items-center justify-between mt-24'>
                 <div className='flex flex-col gap-4'>
                     <p className='text-3xl font-semibold'>{applicationDetails.name}</p>
@@ -50,7 +130,90 @@ const ApplicationDetails = ({jwt, id}: {
                 </div>
                 <Image src='/image1.png' alt='' width={130} height={130} className='rounded-full'/>
             </div>
+            <div className='w-full flex items-center gap-6'>
+                <p className='w-1/6'>Experience: </p>
+                <p>{applicationDetails.experience}</p>
+            </div>
+            <div className='w-full flex items-center gap-6'>
+                <p className='w-1/6'>Skills: </p>
+                <div className="flex items-center gap-2 flex-wrap">
+                    {applicationDetails.skills.split(',').map((skill: string) => (
+                        <div
+                            key={skill}
+                            className={`text-sm ${
+                            applicationDetails.job.data.attributes.skills
+                                .toLowerCase()
+                                .includes(skill.toLowerCase())
+                                ? "bg-green-600"
+                                : "bg-red-600"
+                            } text-white rounded-full px-3 py-1`}
+                        >
+                            {skill}
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className='w-full flex items-center gap-6'>
+                <p className='w-1/6'>Can start from: </p>
+                <p>{new Date(applicationDetails.canStartFrom).toLocaleDateString()}</p>
+            </div>
+            <div className='w-1/4 mx-auto mt-auto flex items-center justify-between mb-6'>
+            {applicationDetails.status !== 'Shortlisted' && <motion.button
+                className="bg-green-600 px-6 py-2 rounded-md text-white"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setShortlist(true)}
+                >
+                Shortlist
+                </motion.button>}
+                {applicationDetails.status === 'Shortlisted' ? (
+                    <motion.button
+                    className="bg-red-600 px-6 rounded-md py-2 text-white"
+                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.1 }}
+                    onClick={() => setRemove(true)}
+                >
+                    Remove
+                </motion.button>
+                ) : <motion.button
+                className="bg-red-600 px-6 rounded-md py-2 text-white"
+                whileTap={{ scale: 0.9 }}
+                whileHover={{ scale: 1.1 }}
+                onClick={() => setReject(true)}
+                >
+                Reject
+                </motion.button>}
+            </div>
         </div>
+        <Modal onClose={() => setShortlist(false)} show={shortlist}>
+          <div className="w-full h-full flex flex-col gap-6 items-center justify-center">
+            <p>Are you sure, you want to shortlist {applicationDetails.name}</p>
+            <div className="flex items-center gap-6">
+                <button onClick={handleShortList}>Yes</button>
+                <motion.button className="px-6 py-2 bg-slate-900 text-white rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={() => setShortlist(false)}>No</motion.button>
+            </div>
+            {loading && <p>Loading...</p>}
+          </div>
+      </Modal>
+      <Modal onClose={() => setReject(false)} show={reject}>
+          <div className="w-full h-full flex flex-col gap-6 items-center justify-center">
+            <p>Are you sure, you want to reject {applicationDetails.name}</p>
+            <div className="flex items-center gap-6">
+                <button onClick={handleReject}>Yes</button>
+                <motion.button className="px-6 py-2 bg-slate-900 text-white rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={() => setReject(false)}>No</motion.button>
+            </div>
+          </div>
+      </Modal>
+      <Modal onClose={() => setRemove(false)} show={remove}>
+          <div className="w-full h-full flex flex-col gap-6 items-center justify-center">
+            <p>Are you sure, you want to remove {applicationDetails.name} from shortlist</p>
+            <div className="flex items-center gap-6">
+                <button onClick={handleRemove}>Yes</button>
+                <motion.button className="px-6 py-2 bg-slate-900 text-white rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={() => setRemove(false)}>No</motion.button>
+            </div>
+          </div>
+      </Modal>
+      <Footer />
     </div>
   )
 }
