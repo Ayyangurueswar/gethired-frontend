@@ -3,7 +3,6 @@ import { useContext, useState, useEffect, createContext } from "react";
 import { useRouter } from "next/navigation";
 import { NEXT_URL } from "@/config";
 import { deleteCookie } from "@/actions/action";
-import { Descendant } from "slate";
 
 const AuthContext = createContext({
     user: null,
@@ -23,7 +22,7 @@ const AuthContext = createContext({
         location: string;
         experience?: string;
         skills?: string;
-        about?: Descendant[];
+        about?: string;
         username: string;
         url?: string;
     }) => {},
@@ -144,7 +143,7 @@ export const AuthProvider = ({ children }: {
         location: string;
         experience?: string;
         skills?: string;
-        about?: Descendant[];
+        about?: string;
         username: string;
         url?: string;
     }) => {

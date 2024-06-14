@@ -29,14 +29,14 @@ const LatestJobs =  ({posted, jwt}: {
      .catch((err) => {console.log(err); setLoading(false)});
   }, [])
   const settings = {
-    infinite: true,
-    slidesToShow: 3,
+    infinite: jobs.length > 3,
+    slidesToShow: Math.min(jobs.length, 3),
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: jobs.length > 3,
     speed: 2000,
     arrows: false,
     className: 'w-4/5',
-    variableWidth: true,
+    variableWidth: jobs.length < 3
   }
   if(loading){
     return <h1>Loading...</h1>
@@ -52,11 +52,11 @@ const LatestJobs =  ({posted, jwt}: {
   return (
     <Slider {...settings}>
         {jobs.map((job) => (
-            <div key={job.id} className="border h-full border-slate-800 rounded px-6 py-4" style={{width: '6.25%', height: '50%'}}>
+            <div key={job.id} className="border h-full border-slate-800 rounded px-6 py-4" style={{height: '50%'}}>
               <div className="flex flex-col h-full justify-between w-full">
                 <div className="flex flex-col gap-4">
                       <div>
-                          <h1 className="text-2xl font-bold">{posted ? job.title : job.attributes.title}</h1>
+                          <h1 className="text-2xl font-bold overflow-hidden whitespace-nowrap text-ellipsis">{posted ? job.title : job.attributes.title}</h1>
                           {!posted && <p className="text-gray-500">at {posted ? job.company : job.attributes.company}</p>}
                       </div>
                       <div className="flex w-full items-center justify-between">

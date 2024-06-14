@@ -1,23 +1,23 @@
 'use client';
 import React, {useState} from 'react'
-import { useScroll } from 'framer-motion';
+import { useScroll, motion } from 'framer-motion';
 import DashboardHeader from './DashboardHeader';
 import { useAuth } from '@/context/AuthContext';
-import Link from 'next/link';
-import { Descendant } from 'slate';
 import Image from 'next/image';
-import TextEditor from './TextEditor';
 import Footer from './Footer';
 import Modal from './Modal';
 import UploadImage from './UploadImage';
+import { useNotifs } from '@/context/NotificationContext';
+import UpdatePassword from './UpdatePassword';
 
 const UpdateProfileRecruiter = ({jwt}: {
     jwt: string,
 }) => {
   const {user, updateDetails} = useAuth();
   const {scrollYProgress} = useScroll()
-  const [about, setAbout] = useState<Descendant[]>(user.about)
   const [show, setShow] = useState(false);
+  const {addNotification} = useNotifs();
+  const [updatePwd, setUpdatePwd] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>(user.profilePicture ? user.profilePicture.formats.thumbnail.url : '/image1.png');
   const [userData, setUserData] = useState({
     username: user.username,
@@ -32,7 +32,8 @@ const UpdateProfileRecruiter = ({jwt}: {
     })
   }
   const handleSubmit = () => {
-      updateDetails({...userData, about: about})
+      updateDetails({...userData});
+      addNotification({content: 'Details updated', type: 'success'});
   }
   return (
     <div className='w-full overflow-y-auto'>
@@ -58,19 +59,22 @@ const UpdateProfileRecruiter = ({jwt}: {
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="about">About:</label>
-            <TextEditor setDescription={setAbout} value={user.about}/>
+            <textarea id='about' name='about' rows={10} cols={25} className='border border-slate-700 rounded-md px-4 py-2 outline-none' value={user.about} onChange={handleChange}/>
           </div>
           <div className="flex items-center gap-3 w-1/3">
             <label htmlFor="url">URL:</label>
             <input name="url" id="url" className="w-full border border-slate-600 rounded-md outline-none px-3 py-1" value={user.url} onChange={handleChange}/>
           </div>
           <div className='w-1/3 flex items-center justify-between mx-auto'>
-            <button className="bg-slate-950 text-while px-6 py-2 text-white rounded-md" onClick={handleSubmit}>Update</button>
-            <Link href='/account/update' className="px-6 py-2 bg-slate-950 text-white rounded-md">Update password</Link>
+            <motion.button className="bg-slate-950 text-while px-6 py-2 text-white rounded-md" onClick={handleSubmit} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}}>Update</motion.button>
+            <motion.button className="px-6 py-2 bg-slate-950 text-white rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={() => setUpdatePwd(true)}>Update password</motion.button>
           </div>
         </div>
         <Modal show={show} onClose={() => setShow(false)}>
             <UploadImage jwt={jwt} setImagePreview={setImagePreview} userId={user.id} imageUploaded={() => {setShow(false)}}/>
+        </Modal>
+        <Modal show={updatePwd} onClose={() => setUpdatePwd(false)}>
+          <UpdatePassword jwt={jwt} closeModal={() => {setUpdatePwd(false)}}/>
         </Modal>
         <Footer />
     </div>

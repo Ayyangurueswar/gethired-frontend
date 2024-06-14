@@ -8,8 +8,6 @@ import Footer from "@/components/Footer";
 import { API_URL } from "@/config";
 import { useNotifs } from "@/context/NotificationContext";
 import { useRouter } from "next/navigation";
-import TextEditor from "./TextEditor";
-import { Descendant } from "slate";
 
 const PostJob = ({jwt}: {
     jwt: string;
@@ -17,7 +15,6 @@ const PostJob = ({jwt}: {
   const {scrollYProgress} = useScroll();
   const {user} = useAuth();
   const [skillsRequired, setSkillsRequired] = useState<string[]>([]);
-  const [description, setDescription] = useState<Descendant[]>([]);
   const {addNotification} = useNotifs()
   const router = useRouter();
   const addSkill = (skill: string) => {
@@ -35,6 +32,7 @@ const PostJob = ({jwt}: {
     domain: "",
     company: user.username,
     location: "Remote",
+    jobDesc: "",
   });
   const handleChange = (e: any) => {
     setJobDetails({...jobDetails, [e.target.name]: e.target.value})
@@ -45,7 +43,6 @@ const PostJob = ({jwt}: {
     formData.append('data', JSON.stringify({
         ...jobDetails,
         skills: skillsRequired.join(','),
-        jobDescription: description
     }))
     const res = await fetch(`${API_URL}/api/jobs`, {
         method: 'POST',
@@ -55,6 +52,7 @@ const PostJob = ({jwt}: {
         body: formData
     })
     const data = await res.json();
+    console.log(data);
     if(res.ok){
         addNotification({content: 'Job posted successfully', type: 'success'});
         router.push('/account/dashboard/recruiter');
@@ -69,11 +67,11 @@ const PostJob = ({jwt}: {
         <form className="grid grid-cols-2 w-full mt-24 px-20 gap-10">
             <div className="flex flex-col gap-2 w-3/4">
                 <label htmlFor="title">Job title</label>
-                <input name="title" id="title" className="px-4 py-2 border border-slate-700 rounded-md" onChange={handleChange}/>
+                <input name="title" id="title" className="px-4 py-2 border border-slate-700 rounded-md outline-none" onChange={handleChange}/>
             </div>
             <div className="flex flex-col gap-2 w-3/4 ml-auto">
                 <label htmlFor="stipend">Stipend</label>
-                <input name="stipend" id="stipend" type="number" className="px-4 py-2 border border-slate-700 rounded-md" onChange={handleChange}/>
+                <input name="stipend" id="stipend" type="number" className="px-4 py-2 border border-slate-700 rounded-md outline-none" onChange={handleChange}/>
             </div>
             <div className="flex w-full items-center justify-around">
                 <div className="w-2/5 flex flex-col gap-2">
@@ -109,9 +107,9 @@ const PostJob = ({jwt}: {
             <div className="col-span-2">
                 <SkillList skills={skillsRequired} addSkill={addSkill} removeSkill={removeSkill}/>
             </div>
-            <div className="col-span-2 flex items-center gap-4">
+            <div className="col-span-2 flex items-start gap-4">
                 <label htmlFor="description">Description:</label>
-                <TextEditor setDescription={setDescription}/>
+                <textarea rows={10} className="border border-slate-700 rounded-md px-4 py-2 resize-none w-3/4 outline-none"/>
             </div>
         </form>
         <div className="w-full my-6 flex items-center justify-center">

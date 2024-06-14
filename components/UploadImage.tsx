@@ -30,7 +30,7 @@ const UploadImage = ({setImagePreview, jwt, userId, imageUploaded}: {
         const data = await res.json();
         setLoading(false);
         if(res.ok){
-            setImagePreview(data.data.attributes.profilePicture.data.attributes.formats.thumbnail.url);
+            setImagePreview(data[0].formats.thumbnail.url);
             addNotification({content: 'Updated profile picture', type: 'success'});
             imageUploaded();
         }

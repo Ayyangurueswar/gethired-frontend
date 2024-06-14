@@ -49,9 +49,11 @@ const Page = ({params}: {
               </div>
               <div>
                 <h2 className="text-lg mb-3">Job description:</h2>
-                {
-                  jobDetails.jobDescription.map((desc) => desc.children.map((child, index: number) => child.text === '' ? <br key={index}/> : <p key={index}>{child.text}</p>))
-                }
+                <div className="flex flex-col gap-2">
+                  {
+                    jobDetails.jobDesc.split('\n').map((desc: string, index: number) => <p key={index}>{desc}</p>)
+                  }
+                </div>
                 <div className="flex w-full gap-5 items-center mt-5">
                   <p>Skills required: </p>
                   <div className="flex gap-3">
@@ -61,9 +63,6 @@ const Page = ({params}: {
                   </div>
                 </div>
               </div>
-              {/* <div>
-                <h2>About {jobDetails.postedBy.username}</h2>
-              </div> */}
               <motion.button className="mb-6 mx-auto px-6 py-3 text-white bg-slate-800 rounded-lg" whileTap={{scale: 0.9}} whileHover={{scale: 1.1}} onClick={() => {setShow(true)}} disabled={applied === 'true'}>
                 {applied === 'true' ? 'Already applied' : 'Apply now'}
               </motion.button>

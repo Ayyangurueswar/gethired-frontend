@@ -9,12 +9,14 @@ import Image from "next/image";
 import Footer from "./Footer";
 import Modal from "./Modal";
 import UploadImage from "./UploadImage";
+import { useNotifs } from "@/context/NotificationContext";
 
 const UpdateProfileCandidate = ({jwt}: {
     jwt: string;
 }) => {
   const {scrollYProgress} = useScroll();
   const {user, updateDetails} = useAuth();
+  const {addNotification} = useNotifs();
   const [newUsername, setNewUsername] = useState(user.username);
   const [newContact, setNewContact] = useState(user.contact);
   const [newLocation, setNewLocation] = useState(user.location);
@@ -30,7 +32,8 @@ const UpdateProfileCandidate = ({jwt}: {
     setNewSkills(newSkills.filter(s => s!== skill));
   }
   const handleSubmit = () => {
-    updateDetails({contact: newContact, location: newLocation, experience: newExperience, skills: newSkills.join(','), username: newUsername})
+    updateDetails({contact: newContact, location: newLocation, experience: newExperience, skills: newSkills.join(','), username: newUsername});
+    addNotification({content: 'Details updated', type: 'success'});
   }
   return (
     <div className="w-full overflow-y-auto">
