@@ -15,6 +15,7 @@ const ApplicationModal = ({jobDetails, user, id}: {
   const [cover, setCover] = useState('');
   const [resume, setResume] = useState<File>();
   const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
+  const [loading, setLoading] = useState(false);
   const handleDateChange = (date: string) => {
     const start = new Date(date).toISOString().slice(0,10);
     setStartDate(start);
@@ -25,6 +26,7 @@ const ApplicationModal = ({jobDetails, user, id}: {
       addNotification({content: 'Please upload a cover letter', type: 'error'});
       return;
     }
+    setLoading(true);
     const token = await getJWT();
     const data = {
         name: user.username,
@@ -50,7 +52,6 @@ const ApplicationModal = ({jobDetails, user, id}: {
       body: formData,
     });
     const datares = await res.json();
-    console.log(datares);
     if(res.ok){
       addNotification({content: 'Application submitted successfully', type: 'success'});
       setCover('');
@@ -58,8 +59,9 @@ const ApplicationModal = ({jobDetails, user, id}: {
       router.push('/jobs/view');
     }
     else{
-      addNotification({content: 'Error submitting application', type: 'error'});
+      addNotification({content: `Error submitting application: ${datares.error.message}`, type: 'error'});
     }
+    setLoading(false);
   }
   return (
     <div className="px-6 flex flex-col gap-6">
@@ -80,12 +82,12 @@ const ApplicationModal = ({jobDetails, user, id}: {
         <div className="flex items-center gap-4">
             <label htmlFor="resume">Custom resume (optional)</label>
             <button className="relative px-6 py-2 bg-slate-900 text-white rounded-md">
-                <input type="file" name="resume" id="resume" className="opacity-0 absolute top-0 left-0 w-full h-full" onChange={(e) => setResume(e.target.files[0])}/>
+                <input type="file" name="resume" id="resume" className="opacity-0 absolute top-0 left-0 w-full h-full" onChange={(e) => {e.target.files && setResume(e.target.files[0])}}/>
                 <p>Choose file</p>
             </button>
             {resume && <p>Selected file: {resume.name}</p>}
         </div>
-        <motion.button className="bg-slate-900 text-white px-6 py-2 w-1/4 rounded-md mx-auto" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={handleSubmit}>Apply</motion.button>
+        <motion.button className="bg-slate-900 text-white px-6 py-2 w-1/4 rounded-md mx-auto" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={handleSubmit} disabled={loading}>{loading ? 'Applying' : 'Apply'}</motion.button>
     </div>
   )
 }

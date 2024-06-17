@@ -1,7 +1,7 @@
 import { getJWT } from "@/actions/action";
 import { API_URL } from "@/config/index";
 
-export async function PUT(request){
+export async function PUT(request: Request){
     const token = await getJWT();
     if(!token){
         return Response.json({error: "Unauthorized"}, {status: 403});

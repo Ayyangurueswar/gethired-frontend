@@ -20,12 +20,15 @@ const DashboardHeader = ({progress}: {
     router.push('/');
     addNotification({content: 'Logged out successfully', type: 'success'});
   }
+  if(!user){
+    return <p>Loading...</p>
+  }
   return (
     <>
         <div className="w-full px-14 py-4 flex items-center justify-between fixed bg-white z-10">
             <h1 className="text-3xl">GetHired</h1>
             <div className='flex items-center w-1/3 justify-between'>
-                {user.type === 'candidate' ? <Link href='/jobs/view'>View jobs</Link> : <Link href='/jobs/post'>Post jobs</Link>}
+                {user.type === 'candidate' ? <Link href='/jobs/view'>View jobs</Link> : <Link href='/jobs/post'>Post a job</Link>}
                 {user.type === 'candidate' ? <Link href='/applications/view'>View applications</Link> : <Link href='/applications/review'>Review applications</Link>}
                 <div className='relative'>
                     {user.profilePicture ? <Image src={user.profilePicture.formats.thumbnail.url} alt='user' width={40} height={40} onClick={() => {setIsOpen(!isOpen)}} className='rounded-full'/> :<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none" onClick={() => {setIsOpen(!isOpen)}} className='hover:cursor-pointer'>

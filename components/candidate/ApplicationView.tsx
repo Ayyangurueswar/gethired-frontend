@@ -1,10 +1,10 @@
 'use client';
-import DashboardHeader from "@/components/DashboardHeader";
+import DashboardHeader from "@/components/others/DashboardHeader";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import { API_URL } from "@/config";
-import ApplicationCard from "@/components/ApplicationCard";
-import Footer from "./Footer";
+import ApplicationCard from "@/components/candidate/ApplicationCard";
+import Footer from "../others/Footer";
 
 const ApplicationView = ({jwt}: {
     jwt: string;

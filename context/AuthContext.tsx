@@ -3,19 +3,19 @@ import { useContext, useState, useEffect, createContext } from "react";
 import { useRouter } from "next/navigation";
 import { NEXT_URL } from "@/config";
 import { deleteCookie } from "@/actions/action";
+import { User } from "@/constants/types";
 
 const AuthContext = createContext({
-    user: null,
-    error: null,
+    user: {} as User | null,
     register: (user: {
         username: string;
         email: string;
         password: string;
         type: 'candidate' | 'recruiter';
-        contact: string;
-        location: string;
-        experience: string;
-        skills: string;
+        contact?: string;
+        location?: string;
+        experience?: string;
+        skills?: string;
     }) => {},
     updateDetails: (userDetails: {
         contact: string;
@@ -38,8 +38,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: {
     children: React.ReactNode;
 }) => {
-    const [user, setUser] = useState(null);
-    const [error, setError] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
     useEffect(() => {
@@ -51,10 +50,10 @@ export const AuthProvider = ({ children }: {
         email: string;
         password: string;
         type: 'candidate' | 'recruiter';
-        contact: string;
-        location: string;
-        experience: string;
-        skills: string;
+        contact?: string;
+        location?: string;
+        experience?: string;
+        skills?: string;
     }) => {
         const res = await fetch(`${NEXT_URL}/api/register`, {
             method: 'POST',
@@ -147,6 +146,9 @@ export const AuthProvider = ({ children }: {
         username: string;
         url?: string;
     }) => {
+        if(!user){
+            return;
+        }
         const req = {id: user.id, body: userDetails};
         const res = await fetch(`${NEXT_URL}/api/updateDetails`, {
             method: 'PUT',
@@ -177,7 +179,7 @@ export const AuthProvider = ({ children }: {
     }
 
     return (
-        <AuthContext.Provider value={{user, error, register, login, logout, loginRecruiter, updateDetails}}>
+        <AuthContext.Provider value={{user, register, login, logout, loginRecruiter, updateDetails}}>
             {!loading && children}
         </AuthContext.Provider>
     )

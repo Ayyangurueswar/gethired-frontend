@@ -3,12 +3,13 @@ import { useEffect, useState } from "react"
 import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick"
+import { Job } from "@/constants/types";
 
 const LatestJobs =  ({posted, jwt}: {
   posted?: boolean;
   jwt?: string;
 }) => {
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch(`${API_URL}/api/jobs${posted ? '/me' : ''}?populate=*`, posted ? {
@@ -20,7 +21,14 @@ const LatestJobs =  ({posted, jwt}: {
      .then(res => res.json())
      .then((data) => {
       if(!posted){
-        setJobs(data.data);
+        const jobata : Job[] = []
+        data.data.map((job: {
+          id: number,
+          attributes: Job
+        }) => {
+          jobata.push({...job.attributes, id: String(job.id)});
+        })
+        setJobs(jobata)
       }
       else{
         setJobs(data);
@@ -36,7 +44,7 @@ const LatestJobs =  ({posted, jwt}: {
     speed: 2000,
     arrows: false,
     className: 'w-4/5',
-    variableWidth: jobs.length < 3
+    variableWidth: jobs.length <= 3
   }
   if(loading){
     return <h1>Loading...</h1>
@@ -51,27 +59,24 @@ const LatestJobs =  ({posted, jwt}: {
   }
   return (
     <Slider {...settings}>
-        {jobs.map((job) => (
-            <div key={job.id} className="border h-full border-slate-800 rounded px-6 py-4" style={{height: '50%'}}>
+        {jobs.map((job, index) => (
+            <div key={index} className="border h-full border-slate-800 rounded px-6 py-4" style={{height: '50%'}}>
               <div className="flex flex-col h-full justify-between w-full">
                 <div className="flex flex-col gap-4">
                       <div>
-                          <h1 className="text-2xl font-bold overflow-hidden whitespace-nowrap text-ellipsis">{posted ? job.title : job.attributes.title}</h1>
-                          {!posted && <p className="text-gray-500">at {posted ? job.company : job.attributes.company}</p>}
+                          <h1 className="text-2xl font-bold overflow-hidden whitespace-nowrap text-ellipsis">{job.title}</h1>
+                          {!posted && <p className="text-gray-500">at {job.company}</p>}
                       </div>
                       <div className="flex w-full items-center justify-between">
-                          <p className="text-gray-500 w-1/2 overflow-ellipsis flex items-center"><Image src='/locaion-icon.png' className="inline-block mr-2" alt="" width={20} height={20}/><p className="overflow-hidden whitespace-nowrap text-ellipsis">{posted ? (job.mode === 'Remote' ? 'Remote' : job.location) : (job.attributes.mode === 'Remote' ? 'Remote' : job.attributes.location)}</p></p>
-                          <p className="text-gray-500 flex items-center gap-2"><Image src='/icons8-receive-cash-50.png' alt="" width={20} height={20}/>{posted ? job.stipend : job.attributes.stipend}</p>
+                          <p className="text-gray-500 w-1/2 overflow-ellipsis flex items-center"><Image src='/locaion-icon.png' className="inline-block mr-2" alt="" width={20} height={20}/><p className="overflow-hidden whitespace-nowrap text-ellipsis">{job.mode === 'Remote' ? 'Remote' : job.location}</p></p>
+                          <p className="text-gray-500 flex items-center gap-2"><Image src='/icons8-receive-cash-50.png' alt="" width={20} height={20}/>{job.stipend}</p>
                       </div>
                   </div>
                   {
                     posted ? (
-                      <Link href={`/jobs/review/${job.id}`}>Review Applications</Link>
+                      <Link href={`/applications/review/${job.id}`}>Review Applications</Link>
                     ) : (
-                      <div className="flex w-full items-center justify-between">
-                        <Link href={`/jobs/view/${job.id}`}>View details</Link>
-                        <button className="px-4 py-2 bg-slate-800 text-white rounded-lg">Apply now</button>
-                      </div>
+                      <Link href={`/jobs/view/${job.id}`}>View details</Link>
                     )
                   }
               </div>

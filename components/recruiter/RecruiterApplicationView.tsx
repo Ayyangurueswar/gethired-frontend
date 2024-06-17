@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion';
-import Modal from './Modal';
+import Modal from '../modals/Modal';
 import { API_URL } from '@/config';
 import { useNotifs } from '@/context/NotificationContext';
 

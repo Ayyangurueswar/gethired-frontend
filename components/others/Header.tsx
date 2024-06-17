@@ -14,12 +14,17 @@ const Header = ({progress}: {
             <h1 className="text-3xl">GetHired</h1>
             <div className="flex items-center gap-10 mx-auto">
                 <Link href='/'>Discover</Link>
-                <Link href='/'>For job seekers</Link>
-                <Link href='/'>For companies</Link>
+                <Link href='/account/login/candidate'>For job seekers</Link>
+                <Link href='/account/login/recruiter'>For companies</Link>
             </div>
             <div className="flex items-center gap-4">
                 <div className='relative'>
-                    <button className="px-4 py-2 border border-slate-500 rounded-lg" onClick={() => {setIsOpen(!isOpen)}}>Login</button>
+                    <button className="px-4 py-2 border border-slate-500 rounded-lg" onClick={() => {
+                        if(signupOpen){
+                            setSignupOpen(false);
+                        }
+                        setIsOpen(!isOpen);
+                    }}>Login</button>
                     <AnimatePresence>
                         {
                             isOpen && (
@@ -32,7 +37,12 @@ const Header = ({progress}: {
                     </AnimatePresence>
                 </div>
                 <div className='relative'>
-                    <button className="px-4 py-2 bg-slate-800 text-white rounded-lg" onClick={() => {setSignupOpen(!signupOpen)}}>Sign up</button>
+                    <button className="px-4 py-2 bg-slate-800 text-white rounded-lg" onClick={() => {
+                        if(isOpen){
+                            setIsOpen(false);
+                        }
+                        setSignupOpen(!signupOpen)
+                        }}>Sign up</button>
                     <AnimatePresence>
                         {
                             signupOpen && (

@@ -2,7 +2,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import SkillList from "./SkillList";
+import SkillList from "../others/SkillList";
 import { useNotifs } from "@/context/NotificationContext";
 
 const UpdateProfile = ({username, email, password, toggleDetails}: {

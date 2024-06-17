@@ -1,14 +1,15 @@
 'use client';
-import DashboardHeader from "@/components/DashboardHeader";
+import DashboardHeader from "@/components/others/DashboardHeader";
 import { API_URL } from "@/config";
 import { useScroll, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Footer from "@/components/Footer";
+import Footer from "@/components/others/Footer";
 import { useAuth } from "@/context/AuthContext";
-import Modal from "@/components/Modal";
-import ApplicationModal from "@/components/ApplicationModal";
+import Modal from "@/components/modals/Modal";
+import ApplicationModal from "@/components/modals/ApplicationModal";
 import { useSearchParams } from "next/navigation";
+import { Job } from "@/constants/types";
 
 const Page = ({params}: {
     params: {
@@ -16,9 +17,10 @@ const Page = ({params}: {
     }
 }) => {
   const {user} = useAuth();
+  
   const searchParams = useSearchParams();
   const applied = searchParams.get('applied');
-  const [jobDetails, setJobDetails] = useState();
+  const [jobDetails, setJobDetails] = useState<Job>();
   const [loading, setLoading] = useState<boolean>(true);
   const [show, setShow] = useState(false);
   const {scrollYProgress} = useScroll();
@@ -26,13 +28,16 @@ const Page = ({params}: {
     fetch(`${API_URL}/api/jobs/${params.id}?populate=*`).then((res) => res.json()).then((data) => {setJobDetails(data.data.attributes)})
     .catch((e) => console.log(e)).finally(() => setLoading(false));
   }, []);
+  if(!user){
+    window.location.href = "/";
+    return;
+  }
   const userSkills = user.skills ? user.skills.split(',').map((skill) => skill.toLowerCase()) : []; 
-  console.log(jobDetails);
   return (
     <div className="w-full overflow-y-auto">
       {!show && <DashboardHeader progress={scrollYProgress}/>}
       {
-        loading ?  <h1 className="text-center text-3xl mt-20">Loading</h1> : (
+        loading || !jobDetails ?  <h1 className="text-center text-3xl mt-20">Loading</h1> : (
           <div className="mt-24 px-14 w-full flex flex-col gap-10">
               <div className="flex items-center justify-between w-full">
                 <div className="flex gap-8 items-start">

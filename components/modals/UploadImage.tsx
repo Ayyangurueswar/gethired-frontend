@@ -45,7 +45,10 @@ const UploadImage = ({setImagePreview, jwt, userId, imageUploaded}: {
   return (
     <div className='flex flex-col items-center gap-6 mt-5'>
         <div className='relative'>
-            <input type='file' accept='image/jpeg' className='opacity-0 absolute top-0 right-0 w-full h-full' onChange={(e) => setImage(e.target.files[0])}/>
+            <input type='file' accept='image/jpeg' className='opacity-0 absolute top-0 right-0 w-full h-full' onChange={(e) => {
+                if(e.target.files){
+                    setImage(e.target.files[0])
+                }}}/>
             <button className='bg-slate-900 text-white px-4 py-2 rounded-md'>Upload an image</button>
         </div>
         {loading && (<p>Uploading...</p>)}

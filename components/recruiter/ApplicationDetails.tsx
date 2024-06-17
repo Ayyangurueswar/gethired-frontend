@@ -1,27 +1,28 @@
 'use client';
 import React, { useEffect, useState } from 'react'
 import { useScroll, motion } from 'framer-motion';
-import DashboardHeader from './DashboardHeader';
+import DashboardHeader from '../others/DashboardHeader';
 import { API_URL } from '@/config';
 import Image from 'next/image';
 import Link from 'next/link';
-import Modal from './Modal';
+import Modal from '../modals/Modal';
 import { useNotifs } from '@/context/NotificationContext';
-import Footer from './Footer';
+import Footer from '../others/Footer';
+import { Application } from '@/constants/types';
 
 const ApplicationDetails = ({jwt, id}: {
     jwt: string,
     id: string,
 }) => {
   const { scrollYProgress } = useScroll();
-  const [applicationDetails, setApplicationDetails] = useState<Object>({});
+  const [applicationDetails, setApplicationDetails] = useState<Application>();
   const [loading, setLoading] = useState(true);
   const [shortlist, setShortlist] = useState(false);
   const [reject, setReject] = useState(false);
   const [remove, setRemove] = useState(false);
   const {addNotification} =  useNotifs()
   useEffect(() => {
-    fetch(`${API_URL}/api/applications/${id}?populate=*`, {
+    fetch(`${API_URL}/api/applications/${id}?populate[0]=resume&populate[1]=user&populate[2]=user.profilePicture&populate[3]=job`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${jwt}`
@@ -31,13 +32,16 @@ const ApplicationDetails = ({jwt, id}: {
         setLoading(false);
     })
   }, [])
+  if(!applicationDetails){
+    return <p>Loading...</p>
+  }
   const handleShortList = async () => {
     setLoading(true);
     const formData = new FormData();
     formData.append('data', JSON.stringify({
         'status': 'Shortlisted'
     }))
-    const res = await fetch(`${API_URL}/api/applications/${applicationDetails.id}`, {
+    const res = await fetch(`${API_URL}/api/applications/${id}`, {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${jwt}`
@@ -48,7 +52,7 @@ const ApplicationDetails = ({jwt, id}: {
     setLoading(false);
     if(res.ok){
         setShortlist(false);
-        location.reload();
+        window.location.href = `/applications/review/${applicationDetails.applicationFor}`
         addNotification({content: 'Candidate shortlisted', type: 'success'});
     }
     else{
@@ -57,17 +61,22 @@ const ApplicationDetails = ({jwt, id}: {
   }
   const handleReject = async () => {
     setLoading(true);
-    const res = await fetch(`${API_URL}/api/applications/${applicationDetails.id}`, {
-        method: 'DELETE',
+    const formData = new FormData();
+    formData.append('data', JSON.stringify({
+        'status': 'Rejected',
+    }))
+    const res = await fetch(`${API_URL}/api/applications/${id}`, {
+        method: 'PUT',
         headers: {
             'Authorization': `Bearer ${jwt}`
         },
+        body: formData
     });
     const data = await res.json();
     setLoading(false);
     if(res.ok){
         setReject(false);
-        location.reload();
+        window.location.href = `/applications/review/${applicationDetails.applicationFor}`
         addNotification({content: 'Candidate removed', type: 'success'});
     }
     else{
@@ -80,7 +89,7 @@ const ApplicationDetails = ({jwt, id}: {
     formData.append('data', JSON.stringify({
       'status': 'Under review',
     }))
-    const res = await fetch(`${API_URL}/api/applications/${applicationDetails.id}`, {
+    const res = await fetch(`${API_URL}/api/applications/${id}`, {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${jwt}`
@@ -91,7 +100,7 @@ const ApplicationDetails = ({jwt, id}: {
     setLoading(false);
     if(res.ok){
         setRemove(false);
-        location.reload();
+        window.location.href = `/applications/review/${applicationDetails.applicationFor}`
         addNotification({content: 'Candidate removed from shortlist', type: 'success'});
     }
     else{
@@ -108,10 +117,10 @@ const ApplicationDetails = ({jwt, id}: {
         <DashboardHeader progress={scrollYProgress}/>
         <div className='flex flex-col gap-6 px-20 w-full min-h-screen'>
             <div className='flex items-center justify-between mt-24'>
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 w-1/3'>
                     <p className='text-3xl font-semibold'>{applicationDetails.name}</p>
-                    <p>{applicationDetails.cover}</p>
-                    {applicationDetails.resume && <Link href={applicationDetails.resume.data.attributes.url} className='px-6 text-center py-2 bg-slate-900 text-white rounded-md'>View resume</Link>}
+                    <p>Cover: {applicationDetails.cover}</p>
+                    {applicationDetails.resume.data && <Link href={applicationDetails.resume.data.attributes.url} className='px-6 text-center py-2 bg-slate-900 text-white rounded-md w-1/2'>View resume</Link>}
                 </div>
                 <div className='flex items-center w-1/3 justify-between'>
                     <div className='flex items-center gap-2'>
@@ -128,7 +137,7 @@ const ApplicationDetails = ({jwt, id}: {
                         <p>{applicationDetails.location}</p>
                     </div>
                 </div>
-                <Image src='/image1.png' alt='' width={130} height={130} className='rounded-full'/>
+                <Image src={applicationDetails.user.data.attributes.profilePicture.data.attributes.formats.thumbnail.url || '/image1.png'} alt='' width={130} height={130} className='rounded-full'/>
             </div>
             <div className='w-full flex items-center gap-6'>
                 <p className='w-1/6'>Experience: </p>
@@ -137,7 +146,7 @@ const ApplicationDetails = ({jwt, id}: {
             <div className='w-full flex items-center gap-6'>
                 <p className='w-1/6'>Skills: </p>
                 <div className="flex items-center gap-2 flex-wrap">
-                    {applicationDetails.skills.split(',').map((skill: string) => (
+                    {applicationDetails.skills?.split(',').map((skill: string) => (
                         <div
                             key={skill}
                             className={`text-sm ${

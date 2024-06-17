@@ -1,17 +1,17 @@
 'use client';
 import React from 'react'
 import { useAuth } from '@/context/AuthContext'
-import DashboardHeader from '@/components/DashboardHeader';
+import DashboardHeader from '@/components/others/DashboardHeader';
 import { useScroll, motion } from 'framer-motion';
 import Image from 'next/image';
-import LatestJobs from '@/components/LatestJobs';
+import LatestJobs from '@/components/others/LatestJobs';
 import Link from 'next/link';
-import Footer from '@/components/Footer';
+import Footer from '@/components/others/Footer';
 
 const Page = () => {
   const { user } = useAuth();
   const {scrollYProgress} = useScroll();
-  const content = ["Hello,", user.username, <Image key={9} src='/waving-hand-svgrepo-com (2).png' alt='' width={50} height={50}/>]
+  const content = ["Hello,", user ? user.username : '', <Image key={9} src='/waving-hand-svgrepo-com (2).png' alt='' width={50} height={50}/>]
   const container = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({

@@ -1,11 +1,9 @@
 'use client';
 import { useScroll, motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react'
-import DashboardHeader from './DashboardHeader';
+import DashboardHeader from '../others/DashboardHeader';
 import { API_URL } from '@/config';
-import Image from 'next/image';
-import Link from 'next/link';
-import Footer from './Footer';
+import Footer from '../others/Footer';
 import RecruiterApplicationView from './RecruiterApplicationView';
 
 const JobApplications = ({jwt}: {

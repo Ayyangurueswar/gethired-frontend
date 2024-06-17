@@ -6,7 +6,6 @@ const SkillList = ({skills, addSkill, removeSkill}: {
     skills: string[],
     addSkill: (skill: string) => void,
     removeSkill: (skill: string) => void,
-  
 }) => {
   const [editing, setEditing] = useState(false);
   const [newSkill, setNewSkill] = useState('');

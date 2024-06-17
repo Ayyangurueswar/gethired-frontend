@@ -1,5 +1,5 @@
 import { getJWT } from "@/actions/action"
-import ViewJobs from "@/components/ViewJobs"
+import ViewJobs from "@/components/candidate/ViewJobs"
 
 const page = async () => {
   const token = await getJWT();

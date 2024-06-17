@@ -1,5 +1,5 @@
 import { getJWT } from "@/actions/action"
-import ReviewApplications from "@/components/ReviewApplications";
+import ReviewApplications from "@/components/recruiter/ReviewApplications";
 
 const page = async ({params}: {
     params: {

@@ -4,7 +4,7 @@ import "./globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AuthProvider } from "@/context/AuthContext";
-import Notifications from "@/components/Notifications";
+import Notifications from "@/components/others/Notifications";
 import { NotificationProvider } from "@/context/NotificationContext";
 
 const inter = Inter({ subsets: ["latin"] });

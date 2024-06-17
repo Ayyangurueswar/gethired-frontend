@@ -1,10 +1,10 @@
 'use client';
 import { useScroll, AnimatePresence, motion } from "framer-motion"
-import DashboardHeader from "@/components/DashboardHeader"
+import DashboardHeader from "@/components/others/DashboardHeader"
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import SkillList from "@/components/SkillList";
-import Footer from "@/components/Footer";
+import SkillList from "@/components/others/SkillList";
+import Footer from "@/components/others/Footer";
 import { API_URL } from "@/config";
 import { useNotifs } from "@/context/NotificationContext";
 import { useRouter } from "next/navigation";
@@ -15,6 +15,7 @@ const PostJob = ({jwt}: {
   const {scrollYProgress} = useScroll();
   const {user} = useAuth();
   const [skillsRequired, setSkillsRequired] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
   const {addNotification} = useNotifs()
   const router = useRouter();
   const addSkill = (skill: string) => {
@@ -30,7 +31,7 @@ const PostJob = ({jwt}: {
     skills: "",
     applyBy: new Date().toISOString().slice(0, 10),
     domain: "",
-    company: user.username,
+    company: user ? user.username : '',
     location: "Remote",
     jobDesc: "",
   });
@@ -39,6 +40,7 @@ const PostJob = ({jwt}: {
   }
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData();
     formData.append('data', JSON.stringify({
         ...jobDetails,
@@ -52,7 +54,6 @@ const PostJob = ({jwt}: {
         body: formData
     })
     const data = await res.json();
-    console.log(data);
     if(res.ok){
         addNotification({content: 'Job posted successfully', type: 'success'});
         router.push('/account/dashboard/recruiter');
@@ -60,6 +61,7 @@ const PostJob = ({jwt}: {
     else{
         addNotification({content: data.error, type: 'error'})
     }
+    setLoading(false);
   }
   return (
     <div className="w-full overflow-y-auto">
@@ -112,8 +114,9 @@ const PostJob = ({jwt}: {
                 <textarea rows={10} className="border border-slate-700 rounded-md px-4 py-2 resize-none w-3/4 outline-none"/>
             </div>
         </form>
+        {loading && <p>Loading...</p>}
         <div className="w-full my-6 flex items-center justify-center">
-            <motion.button className="w-1/6 mx-auto bg-slate-900 text-white py-2 rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={handleSubmit}>Post</motion.button>
+            <motion.button className="w-1/6 mx-auto bg-slate-900 text-white py-2 rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={handleSubmit} disabled={loading}>Post</motion.button>
         </div>
         <Footer />
     </div>

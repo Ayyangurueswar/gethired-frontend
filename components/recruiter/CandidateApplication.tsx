@@ -1,18 +1,36 @@
 'use client';
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../modals/Modal";
 import { API_URL } from "@/config";
 import { useNotifs } from "@/context/NotificationContext";
+import { User, Job } from "@/constants/types";
+
+interface Application {
+  id: string;
+  name: string;
+  skills?: string;
+  contact: string;
+  location: string;
+  canStartFrom: string;
+  experience?: string;
+  job: Job;
+  resume?: any;
+  user: User;
+  cover: string;
+  status: string;
+  applicationFor: number
+  createdAt?: string
+  updatedAt?: string;
+}
 
 const CandidateApplication = ({
   application,
   jwt,
   shortlisted,
 }: {
-  application: any;
+  application: Application;
   jwt: string;
   shortlisted: boolean;
 }) => {
@@ -47,11 +65,16 @@ const CandidateApplication = ({
   }
   const handleReject = async () => {
     setLoading(true);
+    const formData = new FormData();
+    formData.append('data', JSON.stringify({
+        'status': 'Rejected'
+    }))
     const res = await fetch(`${API_URL}/api/applications/${application.id}`, {
-        method: 'DELETE',
+        method: 'PUT',
         headers: {
             'Authorization': `Bearer ${jwt}`
         },
+        body: formData
     });
     const data = await res.json();
     setLoading(false);
@@ -93,28 +116,17 @@ const CandidateApplication = ({
       key={application.id}
       className="w-full border border-slate-500 rounded-md flex flex-col gap-4 px-6 py-4 shadow-lg shadow-slate-600"
     >
-      <div className="flex items-center w-full gap-6">
-        <Image
-          src="/image1.png"
-          width={60}
-          height={60}
-          alt={application.user.username}
-          className="rounded-full"
-        />
-        <p className="text-xl font-semibold">{application.user.username}</p>
-      </div>
+      <p className="text-xl font-semibold">{application.user.username}</p>
       <div className="flex items-center w-full gap-4">
         <p className="w-1/4">Skills:</p>
         <div className="flex items-center gap-2 flex-wrap">
-          {application.skills
-            .split(",")
+          {application.skills?.split(",")
             .slice(0, Math.min(3, application.skills.split(",").length))
             .map((skill: string) => (
               <div
                 key={skill}
                 className={`text-sm ${
-                  application.job.skills
-                    .toLowerCase()
+                  application.job.skills?.toLowerCase()
                     .includes(skill.toLowerCase())
                     ? "bg-green-600"
                     : "bg-red-600"
@@ -123,11 +135,13 @@ const CandidateApplication = ({
                 {skill}
               </div>
             ))}
-          {application.skills.split(",").length > 3 && (
-            <span className="text-sm">
-              + {application.skills.split(",").length - 3} more
-            </span>
-          )}
+          {
+            application.skills && application.skills.split(",").length > 3 && (
+              <span className="text-sm">
+                + {application.skills.split(",").length - 3} more
+              </span>
+            )
+          }
         </div>
       </div>
       <div className="flex items-center gap-4 w-full">
@@ -138,7 +152,7 @@ const CandidateApplication = ({
       </div>
       <div className="flex items-center justify-between mt-auto">
         <Link
-          href={`/applications/candidate/${application.id}`}
+          href={`/applications/applicant/${application.id}`}
           className="text-sm"
         >
           View details

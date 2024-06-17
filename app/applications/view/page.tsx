@@ -1,5 +1,5 @@
 import { getJWT } from "@/actions/action"
-import ApplicationView from "@/components/ApplicationView"
+import ApplicationView from "@/components/candidate/ApplicationView"
 
 const page = async () => {
   const token = await getJWT();

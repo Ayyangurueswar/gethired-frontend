@@ -1,11 +1,11 @@
 'use client';
-import Testimonials from "@/components/Testimonials";
+import Testimonials from "@/components/others/Testimonials";
 import Link from "next/link";
 import { useScroll, motion, Variants } from "framer-motion";
-import Header from "@/components/Header";
+import Header from "@/components/others/Header";
 import Image from "next/image";
 import { useRef } from "react";
-import Footer from "@/components/Footer";
+import Footer from "@/components/others/Footer";
 
 export default function Home() {
   const { scrollYProgress } = useScroll();
@@ -30,8 +30,8 @@ export default function Home() {
             <h1 className="text-5xl font-bold">GetHired.com</h1>
             <p className="text-2xl text-slate-500">Where startups and job seekers connect</p>
             <div className="w-2/5 flex items-center justify-between">
-                <Link href='/' className="bg-slate-800 text-white rounded-xl text-lg px-6 py-4">Find your next hire</Link>
-                <Link href='/' className="border border-slate-500 rounded-xl text-lg px-6 py-4">Find your next job</Link>
+                <Link href='/account/signup/recruiter' className="bg-slate-800 text-white rounded-xl text-lg px-6 py-4">Find your next hire</Link>
+                <Link href='/account/signup/candidate' className="border border-slate-500 rounded-xl text-lg px-6 py-4">Find your next job</Link>
             </div>
         </motion.div>
         <motion.div className="px-14 mb-10" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>

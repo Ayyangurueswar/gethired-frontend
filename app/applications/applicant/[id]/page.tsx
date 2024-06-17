@@ -1,6 +1,6 @@
 import React from 'react'
 import { getJWT } from '@/actions/action';
-import ApplicationDetails from '@/components/ApplicationDetails';
+import ApplicationDetails from '@/components/recruiter/ApplicationDetails';
 
 const page = async ({params}: {
     params: {

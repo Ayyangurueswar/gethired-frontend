@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useState } from 'react';
 import { useNotifs } from '@/context/NotificationContext';
-import UpdateProfile from '@/components/UpdateProfile';
+import UpdateProfile from '@/components/candidate/UpdateProfile';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const Page = () => {

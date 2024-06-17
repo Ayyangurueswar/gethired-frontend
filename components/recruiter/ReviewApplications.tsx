@@ -1,20 +1,39 @@
 'use client';
 import React, { useEffect, useState } from 'react'
 import { useScroll, motion } from 'framer-motion';
-import DashboardHeader from '@/components/DashboardHeader';
+import DashboardHeader from '@/components/others/DashboardHeader';
 import { API_URL } from '@/config';
-import Footer from './Footer';
+import Footer from '../others/Footer';
 import CandidateApplication from './CandidateApplication';
+import { Job, User } from '@/constants/types';
+
+interface Application {
+  id: string;
+  name: string;
+  skills?: string;
+  contact: string;
+  location: string;
+  canStartFrom: string;
+  experience?: string;
+  job: Job;
+  resume?: any;
+  user: User;
+  cover: string;
+  status: string;
+  applicationFor: number
+  createdAt?: string
+  updatedAt?: string;
+}
 
 const ReviewApplications = ({jobId, jwt}: {
     jobId: string,
     jwt: string,
 }) => {
   const { scrollYProgress } = useScroll();
-  const [applications, setApplications] = useState<any[]>([]);
-  const [filteredApplications, setFilteredApplications] = useState<any[]>([]);
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [filteredApplications, setFilteredApplications] = useState<Application[]>([]);
   const [shortlisted, setShortlisted] = useState<boolean>(false);
-  const [shortlistedApplications, setShortlistedApplications] = useState<any[]>([]);
+  const [shortlistedApplications, setShortlistedApplications] = useState<Application[]>([]);
   const toggleMode = () => {
     setShortlisted(!shortlisted);
   }
@@ -28,9 +47,9 @@ const ReviewApplications = ({jobId, jwt}: {
           jobId: jobId
         })
     }).then((res) => res.json()).then((data) => {
-      setFilteredApplications(data.filter((app) => app.status !== 'Shortlisted'));
+      setFilteredApplications(data.filter((app: Application) => app.status !== 'Rejected'));
       setApplications(data);
-      setShortlistedApplications(data.filter((app) => app.status === 'Shortlisted'));
+      setShortlistedApplications(data.filter((app: Application) => app.status === 'Shortlisted'));
     })
   }, []);
   const handleChange = (e: any) => {
