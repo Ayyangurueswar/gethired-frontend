@@ -1,12 +1,11 @@
 import Link from "next/link"
 
-
 const Footer = () => {
   return (
-    <div className="w-full bg-fuchsia-950 py-16 px-20 text-white">
+    <div className="w-full bg-fuchsia-950 py-16 md:px-20 px-10 text-white">
         <div className="w-full flex justify-between">
-            <h3 className="text-5xl font-bold">GetHired</h3>
-            <div className="w-2/5 flex justify-between">
+            <h3 className="text-5xl font-bold md:block hidden">GetHired</h3>
+            <div className="md:w-2/5 w-full flex justify-between">
                 <div className="flex flex-col gap-5">
                     <h4 className="text-2xl font-semibold">For candidates</h4>
                     <Link href='/'>Overview</Link>
@@ -34,7 +33,7 @@ const Footer = () => {
                 <g fill="#ffffff" fillRule="nonzero" stroke="none" strokeWidth="1" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit="10" strokeDasharray="" strokeDashoffset="0" fontFamily="none" fontWeight="none" fontSize="none" textAnchor="none" style={{mixBlendMode: 'normal'}}><g transform="scale(5.12,5.12)"><path d="M16,3c-7.17,0 -13,5.83 -13,13v18c0,7.17 5.83,13 13,13h18c7.17,0 13,-5.83 13,-13v-18c0,-7.17 -5.83,-13 -13,-13zM37,11c1.1,0 2,0.9 2,2c0,1.1 -0.9,2 -2,2c-1.1,0 -2,-0.9 -2,-2c0,-1.1 0.9,-2 2,-2zM25,14c6.07,0 11,4.93 11,11c0,6.07 -4.93,11 -11,11c-6.07,0 -11,-4.93 -11,-11c0,-6.07 4.93,-11 11,-11zM25,16c-4.96,0 -9,4.04 -9,9c0,4.96 4.04,9 9,9c4.96,0 9,-4.04 9,-9c0,-4.96 -4.04,-9 -9,-9z"></path></g></g>
                 </svg>
             </div>
-            <p className="text-sm">Designed and developed by Ayyan.</p>
+            <p className="text-sm w-1/2 text-right">Designed and developed by Ayyan.</p>
         </div>
     </div>
   )

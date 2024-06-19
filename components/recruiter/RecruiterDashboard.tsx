@@ -71,9 +71,9 @@ const ReceuiterDashboard = ({jwt}: {
           </div>
           <LatestJobs posted jwt={jwt}/>
         </div>
-        <div className='w-full h-screen flex flex-col items-center justify-between py-10 px-14'>
-              <p className='font-bold text-8xl text-center'>You have a job. We have job seekers.</p>
-              <div className='text-2xl'>
+        <div className='w-full h-screen flex flex-col items-center justify-between md:py-10 md:px-14 py-5 px-7'>
+              <p className='font-bold md:text-8xl sm:max-md:text-4xl text-4xl text-center'>You have a job. We have job seekers.</p>
+              <div className='md:text-2xl text-xl'>
                 <p className='text-center'>Millions of startup-ready candidates, uniquely specific filters for finding niche talent, and all the tools you need to hire.</p>
                 <p className='text-center'>Sign up now & have everything set up in 10 minutes, for free.</p>
               </div>

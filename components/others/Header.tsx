@@ -1,23 +1,25 @@
 'use client';
 import React, {useState} from 'react'
 import Link from 'next/link'
-import { AnimatePresence, MotionValue, motion } from 'framer-motion'
+import { AnimatePresence, MotionValue, motion, useCycle } from 'framer-motion'
+import { MenuButton, Slider } from './DashboardSlider';
 
 const Header = ({progress}: {
     progress: MotionValue<number>
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
+  const [show, setShow] = useCycle(false, true);
   return (
     <>
-        <div className="w-full px-14 py-4 flex items-center justify-between fixed bg-white z-10">
+        <div className="w-full md:px-14 px-8 py-4 flex items-center justify-between fixed bg-white z-20">
             <h1 className="text-3xl">GetHired</h1>
-            <div className="flex items-center gap-10 mx-auto">
+            <div className="md:flex items-center gap-10 mx-auto hidden">
                 <Link href='/'>Discover</Link>
                 <Link href='/account/login/candidate'>For job seekers</Link>
                 <Link href='/account/login/recruiter'>For companies</Link>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="sm:flex items-center gap-4 hidden">
                 <div className='relative'>
                     <button className="px-4 py-2 border border-slate-500 rounded-lg" onClick={() => {
                         if(signupOpen){
@@ -55,8 +57,12 @@ const Header = ({progress}: {
                     </AnimatePresence>
                 </div>
             </div>
+            <MenuButton isOpen={show} onClick={setShow} />
+            <AnimatePresence>
+                {show && <Slider />}
+            </AnimatePresence>
         </div>
-        <motion.div className='h-2 bg-slate-900 fixed top-0 left-0 right-0 z-10' style={{scaleX: progress, transformOrigin: '0%'}}></motion.div>
+        <motion.div className='h-2 bg-slate-900 fixed top-0 left-0 right-0 z-20' style={{scaleX: progress, transformOrigin: '0%'}}></motion.div>
     </>
   )
 }

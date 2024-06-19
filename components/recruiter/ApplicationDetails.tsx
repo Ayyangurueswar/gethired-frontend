@@ -115,14 +115,14 @@ const ApplicationDetails = ({jwt, id}: {
   return (
     <div className='w-full'>
         <DashboardHeader progress={scrollYProgress}/>
-        <div className='flex flex-col gap-6 px-20 w-full min-h-screen'>
-            <div className='flex items-center justify-between mt-24'>
-                <div className='flex flex-col gap-4 w-1/3'>
+        <div className='flex flex-col gap-6 md:px-20 px-8 w-full min-h-screen'>
+            <div className='flex flex-col md:flex-row items-center gap-6 md:justify-between mt-24'>
+                <div className='flex flex-col gap-4 md:w-1/3 w-full'>
                     <p className='text-3xl font-semibold'>{applicationDetails.name}</p>
                     <p>Cover: {applicationDetails.cover}</p>
-                    {applicationDetails.resume.data && <Link href={applicationDetails.resume.data.attributes.url} className='px-6 text-center py-2 bg-slate-900 text-white rounded-md w-1/2'>View resume</Link>}
+                    {applicationDetails.resume.data && <Link href={applicationDetails.resume.data.attributes.url} className='px-6 text-center py-2 bg-slate-900 text-white rounded-md sm:w-1/2'>View resume</Link>}
                 </div>
-                <div className='flex items-center w-1/3 justify-between'>
+                <div className='flex items-center md:w-1/3 justify-between w-full'>
                     <div className='flex items-center gap-2'>
                         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" fill="#000000" width="20px" height="20px" viewBox="0 0 64 64" version="1.1" xmlSpace="preserve">
                             <path d="M62.9891,2.5618c-0.0765-0.5779-0.6611-0.9805-1.2299-0.8401L7.4043,15.2065c-0.3535,0.0879-0.6318,0.3608-0.7256,0.7129     s0.0112,0.7275,0.2744,0.9795l13.9343,13.3583l-2.7649,17.1495c-0.1079,0.6712,0.4969,1.2576,1.1582,1.1445l18.0805-3.1324     l17.1832,9.6988c0.1523,0.0859,0.3218,0.1289,0.4917,0.1289c0.1523,0,0.3047-0.0347,0.4453-0.1045     c0.2969-0.1475,0.5015-0.4331,0.5459-0.7617l6.9639-51.5542C63.0031,2.7372,63.0007,2.6487,62.9891,2.5618z M9.647,16.7109     L56.8914,4.9902L22.2545,28.7978L9.647,16.7109z M36.9146,43.4663l-16.5942,2.875l2.4995-15.5054L58.8633,6.0615L36.9146,43.4663     z M54.2427,52.6504l-15.3231-8.6492l21.4231-36.509L54.2427,52.6504z"/>
@@ -140,7 +140,7 @@ const ApplicationDetails = ({jwt, id}: {
                 <Image src={applicationDetails.user.data.attributes.profilePicture.data.attributes.formats.thumbnail.url || '/image1.png'} alt='' width={130} height={130} className='rounded-full'/>
             </div>
             <div className='w-full flex items-center gap-6'>
-                <p className='w-1/6'>Experience: </p>
+                <p className='md:w-1/6'>Experience: </p>
                 <p>{applicationDetails.experience}</p>
             </div>
             <div className='w-full flex items-center gap-6'>
@@ -163,10 +163,10 @@ const ApplicationDetails = ({jwt, id}: {
                 </div>
             </div>
             <div className='w-full flex items-center gap-6'>
-                <p className='w-1/6'>Can start from: </p>
+                <p className='md:w-1/6'>Can start from: </p>
                 <p>{new Date(applicationDetails.canStartFrom).toLocaleDateString()}</p>
             </div>
-            <div className='w-1/4 mx-auto mt-auto flex items-center justify-between mb-6'>
+            <div className='md:w-1/4 sm:mx-auto sm:max-md:w-1/2 w-full mt-auto flex items-center justify-between mb-6'>
             {applicationDetails.status !== 'Shortlisted' && <motion.button
                 className="bg-green-600 px-6 py-2 rounded-md text-white"
                 whileHover={{ scale: 1.1 }}

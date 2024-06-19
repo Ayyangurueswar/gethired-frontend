@@ -34,14 +34,14 @@ const RecruiterApplicationView = ({job, jwt}: {
     }
   }
   return (
-        <div key={job.id} className="w-full flex items-center justify-between px-10 py-8 shadow-md rounded-md shadow-slate-600 hover:scale-105 transition border border-slate-700">
-            <h3 className="text-2xl font-semibold w-1/4 whitespace-nowrap text-ellipsis overflow-hidden">{job.title}</h3>
-            <div className="w-1/3 flex items-center justify-between">
+        <div key={job.id} className="w-full md:flex-row flex-col flex md:items-center md:justify-between gap-6 md:px-10 md:py-8 px-5 py-4 shadow-md rounded-md shadow-slate-600 hover:scale-105 transition border border-slate-700">
+            <h3 className="text-2xl font-semibold md:w-1/4 w-full whitespace-nowrap text-ellipsis overflow-hidden">{job.title}</h3>
+            <div className="md:w-1/3 w-full flex items-center justify-between">
                 <p className="text-gray-500 w-3/4 overflow-ellipsis flex items-center"><Image src='/locaion-icon.png' className="inline-block mr-2" alt="" width={20} height={20}/><p className="overflow-hidden whitespace-nowrap text-ellipsis">{job.location}</p></p>
                 <p className="text-gray-500 w-1/2"><Image src='/icons8-receive-cash-50.png' className="inline-block mr-2" alt="" width={20} height={20}/>&#8377; {job.stipend}</p>
             </div>
-            <div className='w-1/3 flex items-center justify-between'>
-                <motion.button className='bg-red-600 text-white px-4 py-2 rounded-md' whileHover={{scale: 1.05}} whileTap={{scale: 0.95}} onClick={() => setShow(true)}>Close this opening</motion.button>
+            <div className='md:w-1/3 w-full flex items-center justify-between text-sm'>
+                <motion.button className='bg-red-600 text-white md:px-4 px-2 py-2 rounded-md w-2/5' whileHover={{scale: 1.05}} whileTap={{scale: 0.95}} onClick={() => setShow(true)}>Close this opening</motion.button>
                 <Link href={`/applications/review/${job.id}`}>Review applications</Link>
             </div>
             <Modal show={show} onClose={() => setShow(false)}>

@@ -1,23 +1,23 @@
 'use client';
 import React, {useState} from 'react'
 import Link from 'next/link'
-import { AnimatePresence, MotionValue, motion } from 'framer-motion'
+import { AnimatePresence, MotionValue, motion, useCycle } from 'framer-motion'
 import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/navigation';
 import { useNotifs } from '@/context/NotificationContext';
 import Image from 'next/image';
+import { MenuButton, DashboardSlider } from './DashboardSlider';
 
 const DashboardHeader = ({progress}: {
     progress: MotionValue<number>
 }) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [show, toggleShow] = useCycle(false, true);
   const { logout, user } = useAuth();
   const {addNotification} = useNotifs()
   const handleLogout = (e: any) => {
     e.preventDefault();
     logout();
-    router.push('/');
+    window.location.href = "/"
     addNotification({content: 'Logged out successfully', type: 'success'});
   }
   if(!user){
@@ -25,9 +25,9 @@ const DashboardHeader = ({progress}: {
   }
   return (
     <>
-        <div className="w-full px-14 py-4 flex items-center justify-between fixed bg-white z-10">
+        <div className="w-full sm:px-14 py-4 flex items-center justify-between px-8 fixed bg-white z-20">
             <h1 className="text-3xl">GetHired</h1>
-            <div className='flex items-center w-1/3 justify-between'>
+            <div className='sm:flex items-center md:w-1/3 justify-between sm:w-1/2 hidden'>
                 {user.type === 'candidate' ? <Link href='/jobs/view'>View jobs</Link> : <Link href='/jobs/post'>Post a job</Link>}
                 {user.type === 'candidate' ? <Link href='/applications/view'>View applications</Link> : <Link href='/applications/review'>Review applications</Link>}
                 <div className='relative'>
@@ -54,8 +54,14 @@ const DashboardHeader = ({progress}: {
                     </AnimatePresence>
                 </div>
             </div>
+            <MenuButton isOpen={show} onClick={toggleShow}/>
         </div>
-        <motion.div className='h-2 bg-slate-900 fixed top-0 left-0 right-0 z-10' style={{scaleX: progress, transformOrigin: '0%'}}></motion.div>
+        <motion.div className='h-2 bg-slate-900 fixed top-0 left-0 right-0 z-20' style={{scaleX: progress, transformOrigin: '0%'}}></motion.div>
+        <AnimatePresence>
+            {
+                show && <DashboardSlider logout={logout}/>
+            }
+        </AnimatePresence>
     </>
   )
 }

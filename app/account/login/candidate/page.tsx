@@ -13,7 +13,7 @@ const Page = () => {
   }
   return (
     <div className='w-screen h-screen flex items-center justify-center'>
-        <div className='w-1/3 flex flex-col h-3/5 justify-between'>
+        <div className='md:w-1/3 w-3/4 sm:max-md:w-3/5 flex flex-col h-3/5 md:justify-between gap-6'>
             <h1 className='text-center text-4xl font-bold'>Login</h1>
             <form className='flex flex-col gap-4'>
                 <div className='flex flex-col'>

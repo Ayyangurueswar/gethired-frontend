@@ -54,7 +54,7 @@ const ApplicationView = ({jwt}: {
     <>
         <div className="w-full overflow-y-auto min-h-screen">
             <DashboardHeader progress={scrollYProgress}/>
-            <form className="w-full px-14 flex items-end justify-center mt-24">
+            <form className="w-full px-14 md:flex hidden items-end justify-center mt-24">
                 <div className="w-full flex items-center justify-between">
                     <input name="title" placeholder="Search by title" className="px-4 py-2 rounded-md border border-slate-700 w-1/3 outline-none" onChange={handleSearch}/>
                     <input name="company" placeholder="Search by company" className="px-4 py-2 rounded-md border border-slate-700 outline-none" onChange={handleSearch}/>
@@ -86,7 +86,7 @@ const ApplicationView = ({jwt}: {
                     </div>
                 </div>
             </form>
-            <div className="w-full px-14 flex flex-col gap-6 my-10">
+            <div className="w-full px-14 grid sm:max-md:grid-cols-2 grid-cols-1 gap-6 md:my-10 mt-24 mb-10">
                 {
                     loading ? <p className="text-center text-3xl">Loading</p> : filteredApplications.length > 0 ? filteredApplications.map((application) => 
                         <ApplicationCard application={application} key={application.id}/>

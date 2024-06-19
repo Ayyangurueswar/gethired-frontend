@@ -43,9 +43,9 @@ const UpdateProfileRecruiter = ({jwt}: {
     <div className='w-full overflow-y-auto'>
         <DashboardHeader progress={scrollYProgress}/>
         <div className="mt-24 w-full px-14 flex flex-col gap-8 mb-5">
-          <div className="w-full grid grid-cols-2 gap-8">
+          <div className="w-full grid grid-cols-2 max-md:grid-cols-1 gap-8">
             <div className="flex items-center gap-3 ">
-              <label htmlFor="username" className="w-1/4">Username: </label>
+              <label htmlFor="username" className="md:w-1/4">Username: </label>
               <input type="text" name="username" id="username" className="w-full border border-slate-600 rounded-md outline-none px-3 py-1" value={userData.username} onChange={handleChange}/>
             </div>
             <div className='flex flex-col items-center gap-4'>
@@ -65,13 +65,13 @@ const UpdateProfileRecruiter = ({jwt}: {
             <label htmlFor="about">About:</label>
             <textarea id='about' name='about' rows={10}  className='border border-slate-700 rounded-md px-4 py-2 outline-none resize-none' value={userData.about} onChange={handleChange}/>
           </div>
-          <div className="flex items-center gap-3 w-1/3">
+          <div className="flex items-center gap-3 md:w-1/3 w-full">
             <label htmlFor="url">URL:</label>
             <input name="url" id="url" className="w-full border border-slate-600 rounded-md outline-none px-3 py-1" value={userData.url} onChange={handleChange}/>
           </div>
-          <div className='w-1/3 flex items-center justify-between mx-auto'>
-            <motion.button className="bg-slate-950 text-while px-6 py-2 text-white rounded-md" onClick={handleSubmit} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}}>Update</motion.button>
-            <motion.button className="px-6 py-2 bg-slate-950 text-white rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={() => setUpdatePwd(true)}>Update password</motion.button>
+          <div className='md:w-1/3 sm:max-md:w-1/2 flex items-center justify-between sm:mx-auto'>
+            <motion.button className="bg-slate-950 text-while md:px-6 px-2 py-2 text-white rounded-md" onClick={handleSubmit} whileHover={{scale: 1.1}} whileTap={{scale: 0.9}}>Update</motion.button>
+            <motion.button className="md:px-6 px-2 py-2 bg-slate-950 text-white rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={() => setUpdatePwd(true)}>Update password</motion.button>
           </div>
         </div>
         <Modal show={show} onClose={() => setShow(false)}>

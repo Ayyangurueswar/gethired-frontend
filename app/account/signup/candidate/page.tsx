@@ -26,7 +26,7 @@ const Page = () => {
   }
   return (
     <div className='w-screen h-screen flex items-center justify-center'>
-      <div className='w-1/3 h-5/6'>
+      <div className='md:w-1/3 md:h-5/6'>
       <div className='flex items-center gap-2 w-full py-4'>
         <motion.div className='h-1 rounded-full bg-slate-800' initial={{width:0}} animate={{width: '50%'}}></motion.div>
         <AnimatePresence>
@@ -50,7 +50,7 @@ const Page = () => {
                   <input type='email' id='email' className='border border-slate-500 rounded-md px-4 py-2 outline-none' value={email} onChange={(e) => {setEmail(e.target.value)}}/>
                 </div>
                 <div className='flex flex-col'>
-                  <label htmlFor='password' className='mb-2'>Password</label>
+                  <label htmlFor='password' className='mb-2'>Password (min. 6 characters)</label>
                   <input type='password' id='password' className='border border-slate-500 rounded-md px-4 py-2 outline-none' value={password} onChange={(e) => {setPassword(e.target.value)}}/>
                 </div>
                 <div className='flex flex-col'>
@@ -58,7 +58,7 @@ const Page = () => {
                   <input type='password' id='confirmPwd' className='border border-slate-500 rounded-md px-4 py-2 outline-none' value={confirmPassword} onChange={(e) => {setConfirmPassword(e.target.value)}}/>
                 </div>
             </form>
-            <div className='w-full flex flex-col items-center gap-3'>
+            <div className='w-full flex flex-col items-center gap-2 max-md:mt-3'>
                 <button className='bg-slate-700 text-white rounded-md px-4 py-2 w-1/3' onClick={handleSubmit}>Next</button>
                 <p className='text-sm'>Already have an account? <Link href='/account/login/candidate' className='underline text-blue-500'>Sign in</Link></p>
             </div>

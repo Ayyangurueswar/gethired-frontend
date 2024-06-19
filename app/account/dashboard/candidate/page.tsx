@@ -53,7 +53,7 @@ const Page = () => {
     },
   }
   return (
-    <div className='w-full'>
+    <div className='w-full overflow-x-hidden'>
         <DashboardHeader progress={scrollYProgress}/>
         <div className='w-full flex flex-col items-center justify-center gap-20 h-screen'>
           <div className='flex flex-col gap-3 items-center'>
@@ -69,15 +69,15 @@ const Page = () => {
           </div>
           <LatestJobs />
         </div>
-        <div className='w-full h-screen px-14 grid grid-cols-2'>
-            <Image src='/image1.png' className='w-full h-full' alt='' width={600} height={600}/>
+        <div className='w-full md:h-screen px-14 grid md:grid-cols-2 grid-cols-1 h-full mb-5'>
+            <Image src='/image1.png' className='w-full h-full md:block hidden' alt='' width={600} height={600}/>
             <div className='flex flex-col justify-between h-5/6'>
               <h1 className='font-bold text-4xl'>Find work that works for you</h1>
               <div className='flex flex-col gap-8'>
                 <p className='text-2xl'>A personalized and private job search, with all the info you care about, all upfront</p>
                 <div className="flex flex-col text-sm gap-8 justify-between">
                   <motion.div className="flex gap-6 items-center" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
-                    <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                    <div className="bg-orange-200 sm:w-1/12 w-1/4 p-2 rounded-full">
                       <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/646574e670c0dd6f22eee061_tap.svg' alt="" width={30} height={30} className="m-auto"/>
                     </div>
                     <div className='flex flex-col'>
@@ -86,7 +86,7 @@ const Page = () => {
                     </div>
                   </motion.div>
                   <motion.div className="flex gap-6 items-center" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
-                    <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                    <div className="bg-orange-200 sm:w-1/12 w-1/4 p-2 rounded-full">
                       <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/646d75631aaeadb21e18efc6_settings.svg' alt="" width={30} height={30} className="m-auto"/>
                     </div>
                     <div className='flex flex-col'>
@@ -94,8 +94,8 @@ const Page = () => {
                       <p>Personalized filters make it quick and easy to find the jobs you care about</p>
                     </div>
                   </motion.div>
-                  <motion.div className="flex gap-6" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
-                    <div className="bg-orange-200 w-1/12 p-2 rounded-full">
+                  <motion.div className="flex gap-6 items-center" initial="offscreen" whileInView='onscreen' viewport={{once: true, amount: 0.5}} variants={scrollVariants}>
+                    <div className="bg-orange-200 sm:w-1/12 w-1/4 p-2 rounded-full">
                       <Image src='https://assets-global.website-files.com/64626a4a74818ca87606a29e/647d04daca07a115af9c05ce_send.svg' alt="" width={30} height={30} className="m-auto"/>
                     </div>
                     <div className='flex flex-col'>
@@ -105,9 +105,9 @@ const Page = () => {
                   </motion.div>
                 </div>
               </div>
-              <div className='flex items-center gap-8'>
-                <Link href='/jobs/view' className='px-6 py-2 bg-slate-900 rounded-md text-white'>Browse jobs</Link>
-                <Link href='/applications/view'>View your applications</Link>
+              <div className='flex items-center sm:gap-8 md:mt-0 mt-6 w-full justify-between'>
+                <Link href='/jobs/view' className='sm:px-6 text-center w-2/5 py-2 bg-slate-900 rounded-md text-white'>Browse jobs</Link>
+                <Link href='/applications/view' className='w-1/2'>View your applications</Link>
               </div>
             </div>
         </div>

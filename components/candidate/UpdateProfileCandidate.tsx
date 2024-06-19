@@ -24,7 +24,6 @@ const UpdateProfileCandidate = ({jwt}: {
   const [newSkills, setNewSkills] = useState(skillList);
   const [newExperience, setNewExperience] = useState(user ? user.experience : '');
   const [show, setShow] = useState(false);
-  console.log(user);
   const [imagePreview, setImagePreview] = useState<string>(user && user.profilePicture ? user.profilePicture.formats.thumbnail.url : '/image1.png');
   const addSkill = (skill: string) => {
     setNewSkills([...newSkills, skill]);
@@ -43,7 +42,7 @@ const UpdateProfileCandidate = ({jwt}: {
     <div className="w-full overflow-y-auto">
         <DashboardHeader progress={scrollYProgress}/>
         <div className="mt-24 w-full px-14 flex flex-col gap-8 mb-5">
-          <div className="w-full grid grid-cols-2 gap-8">
+          <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-8">
             <div className="flex items-center gap-3">
               <label htmlFor="username" className="w-1/4">Username: </label>
               <input type="text" name="username" id="username" className="w-full border border-slate-600 rounded-md outline-none px-3 py-1" value={newUsername} onChange={(e) => setNewUsername(e.target.value)}/>
@@ -64,11 +63,11 @@ const UpdateProfileCandidate = ({jwt}: {
           <SkillList skills={newSkills} addSkill={addSkill} removeSkill={removeSkill} />
           <div className="flex flex-col gap-2">
             <label htmlFor="experience">Experience:</label>
-            <textarea id="experience" className="border border-slate-700 rounded-md px-3 py-1 resize-none outline-none w-1/2 h-36" value={newExperience} onChange={(e) => setNewExperience(e.target.value)}/>
+            <textarea id="experience" className="border border-slate-700 rounded-md px-3 py-1 resize-none outline-none md:w-1/2 w-full h-36" value={newExperience} onChange={(e) => setNewExperience(e.target.value)}/>
           </div>
-          <div className="w-1/3 flex items-center justify-between mx-auto">
-            <button className="bg-slate-950 text-while px-6 py-2 text-white rounded-md" onClick={handleSubmit}>Update</button>
-            <Link href='/account/update' className="px-6 py-2 bg-slate-950 text-white rounded-md ml-auto">Update password</Link>
+          <div className="flex items-center gap-8 justify-between mx-auto">
+            <button className="bg-slate-950 text-while md:px-6 px-2 py-2 text-white rounded-md" onClick={handleSubmit}>Update</button>
+            <Link href='/account/update' className="md:px-6 px-2 py-2 bg-slate-950 text-white rounded-md ml-auto">Update password</Link>
           </div>
         </div>
         <Modal show={show} onClose={() => setShow(false)}>

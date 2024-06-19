@@ -28,7 +28,7 @@ const UpdatePassword = ({closeModal, jwt}: {
   }
   return (
     <div className="flex flex-col items-center gap-6 mt-5">
-        <input type="email" className="w-72 border border-slate-700 rounded-md px-4 py-2 outline-none" value={email} onChange={(e) => setEmail(e.target.value)}/>
+        <input type="email" placeholder="Enter your email" className="w-72 border border-slate-700 rounded-md px-4 py-2 outline-none" value={email} onChange={(e) => setEmail(e.target.value)}/>
         {emailSent  && <p>Check your inbox for further instructions</p>}
         {loading && <p>Sending...</p>}
         {emailSent ? <button onClick={closeModal} className="bg-slate-900 text-white px-6 py-2 rounded-md">Done</button> : 

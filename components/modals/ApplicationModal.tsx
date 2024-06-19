@@ -65,7 +65,7 @@ const ApplicationModal = ({jobDetails, user, id}: {
   }
   return (
     <div className="px-6 flex flex-col gap-6">
-        <h2 className="text-center text-3xl font-semibold">Application for {jobDetails.title} at {jobDetails.company}</h2>
+        <h2 className="text-center md:text-3xl text-xl font-semibold">Application for {jobDetails.title} at {jobDetails.company}</h2>
         <div className="flex items-center justify-between">
             <p>Your details will be shared to the employer directly from your profile.</p>
             <Link href='/updateProfile/candidate' className="bg-slate-900 text-white px-6 py-2 rounded-md">Update Profile</Link>
@@ -76,7 +76,7 @@ const ApplicationModal = ({jobDetails, user, id}: {
         </div>
         <div className="flex flex-col gap-1">
             <label htmlFor="cover">Cover Letter:</label>
-            <textarea name="cover" id="cover" rows={5} className="w-1/2 resize-none outline-none border border-slate-600 rounded-md px-3 py-1" 
+            <textarea name="cover" id="cover" rows={5} className="md:w-1/2 w-full resize-none outline-none border border-slate-600 rounded-md px-3 py-1" 
             placeholder="Mention why you would be a good fit for this role" value={cover} onChange={(e) => setCover(e.target.value)}></textarea>
         </div>
         <div className="flex items-center gap-4">
@@ -87,7 +87,7 @@ const ApplicationModal = ({jobDetails, user, id}: {
             </button>
             {resume && <p>Selected file: {resume.name}</p>}
         </div>
-        <motion.button className="bg-slate-900 text-white px-6 py-2 w-1/4 rounded-md mx-auto" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={handleSubmit} disabled={loading}>{loading ? 'Applying' : 'Apply'}</motion.button>
+        <motion.button className="bg-slate-900 text-white px-6 py-2 sm:w-1/4 rounded-md mx-auto" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={handleSubmit} disabled={loading}>{loading ? 'Applying' : 'Apply'}</motion.button>
     </div>
   )
 }

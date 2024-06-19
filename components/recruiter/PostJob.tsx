@@ -66,12 +66,12 @@ const PostJob = ({jwt}: {
   return (
     <div className="w-full overflow-y-auto">
         <DashboardHeader progress={scrollYProgress}/>
-        <form className="grid grid-cols-2 w-full mt-24 px-20 gap-10">
-            <div className="flex flex-col gap-2 w-3/4">
+        <form className="md:grid md:grid-cols-2 flex flex-col w-full mt-24 md:px-20 px-8 gap-10">
+            <div className="flex flex-col gap-2 md:w-3/4 w-full">
                 <label htmlFor="title">Job title</label>
                 <input name="title" id="title" className="px-4 py-2 border border-slate-700 rounded-md outline-none" onChange={handleChange}/>
             </div>
-            <div className="flex flex-col gap-2 w-3/4 ml-auto">
+            <div className="flex flex-col gap-2 md:w-3/4 md:ml-auto w-full">
                 <label htmlFor="stipend">Stipend</label>
                 <input name="stipend" id="stipend" type="number" className="px-4 py-2 border border-slate-700 rounded-md outline-none" onChange={handleChange}/>
             </div>
@@ -111,7 +111,7 @@ const PostJob = ({jwt}: {
             </div>
             <div className="col-span-2 flex items-start gap-4">
                 <label htmlFor="description">Description:</label>
-                <textarea rows={10} className="border border-slate-700 rounded-md px-4 py-2 resize-none w-3/4 outline-none"/>
+                <textarea className="border border-slate-700 rounded-md px-4 py-2 resize-none w-3/4 h-36 outline-none"/>
             </div>
         </form>
         {loading && <p>Loading...</p>}

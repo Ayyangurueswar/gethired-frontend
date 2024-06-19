@@ -67,7 +67,7 @@ const JobApplications = ({jwt}: {
   return (
     <div className='w-full overflow-y-auto'>
       <DashboardHeader progress={scrollYProgress}/>
-      <form className="w-full px-14 mt-20">
+      <form className="w-full px-14 mt-24 hidden md:block">
         <div className="w-full flex items-end justify-between">
             <input name="title" placeholder="Search by title" className="px-4 py-2 rounded-md border border-slate-700 w-1/3 outline-none" onChange={handleChange}/>
             <div className='w-1/6 flex flex-col gap-1'>
@@ -102,7 +102,7 @@ const JobApplications = ({jwt}: {
             </div>
         </div>
       </form>
-      <div className="w-full px-14 flex flex-col gap-6 my-10">
+      <div className="w-full md:px-14 px-7 flex flex-col gap-6 max-md:mt-24 my-10">
             {
                 loading ? <p className="text-center text-3xl">Loading</p> : filteredJobs.length > 0 ? filteredJobs.map((job) => 
                 <RecruiterApplicationView job={job} key={job.id} jwt={jwt}/>): <p className="text-center text-3xl">No matching results</p>

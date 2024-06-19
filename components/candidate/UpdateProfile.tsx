@@ -31,15 +31,15 @@ const UpdateProfile = ({username, email, password, toggleDetails}: {
     }
   }
   return (
-    <motion.div className="w-full h-full flex flex-col justify-between" initial={{x: 200, opacity:0}} animate={{x: 0, opacity: 1}} exit={{x: -100, opacity: 0}}>
-        <h1 className="text-center text-3xl font-semibold">Update details</h1>
+    <motion.div className="w-full h-full flex flex-col justify-between max-md:px-6" initial={{x: 200, opacity:0}} animate={{x: 0, opacity: 1}} exit={{x: -100, opacity: 0}}>
+        <h1 className="text-center text-3xl font-semibold max-md:mb-4">Update details</h1>
         <div className="flex flex-col gap-6">
-          <div className="w-full flex items-center justify-between">
-            <div className="w-5/12">
+          <div className="w-full flex items-center md:justify-between gap-4">
+            <div className="md:w-5/12">
               <label htmlFor="contact">Contact</label>
               <input type="text" className="w-full px-4 py-2 border border-slate-600 rounded-md outline-none" id="contact" value={contact} onChange={(e) => setContact(e.target.value)}/>
             </div>
-            <div className="w-5/12">
+            <div className="md:w-5/12">
               <label htmlFor="location">Location</label>
               <input type="text" className="w-full px-4 py-2 border border-slate-600 rounded-md outline-none" id="location" value={location} onChange={(e) => setLocation(e.target.value)}/>
             </div>

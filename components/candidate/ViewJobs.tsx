@@ -72,7 +72,7 @@ const ViewJobs = ({jwt}: {
   return (
     <div className="w-full overflow-y-auto">
         <DashboardHeader progress={scrollYProgress}/>
-        <form className="w-full px-14 flex items-end justify-center mt-24">
+        <form className="w-full px-14 md:flex items-end justify-center mt-24 hidden">
             <div className="w-full flex items-center justify-between">
                 <input name="title" placeholder="Search by title" className="px-4 py-2 rounded-md border border-slate-700 w-1/3 outline-none" onChange={(e) => setTitle(e.target.value)}/>
                 <input name="company" placeholder="Search by company" className="px-4 py-2 rounded-md border border-slate-700 outline-none" onChange={(e) => setCompany(e.target.value)}/>
@@ -104,26 +104,26 @@ const ViewJobs = ({jwt}: {
                 </div>
             </div>
         </form>
-        <div className="w-full px-14 flex flex-col gap-6 my-10">
+        <div className="w-full px-14 grid md:grid-cols-1 sm:max-md:grid-cols-2 grid-cols-1 gap-6 md:my-10 mt-24 mb-10">
             {
                 loading ? <p className="text-center text-3xl">Loading</p> : jobs.length > 0 ? jobs.map((job, index) => {
                     return (
-                        <div key={index} className="w-full flex items-center justify-between px-6 py-4 shadow-md rounded-md shadow-slate-600 hover:scale-105 transition">
-                            <div className="w-1/3">
+                        <div key={index} className="w-full flex items-center md:justify-between px-6 py-4 shadow-md rounded-md shadow-slate-600 hover:scale-105 transition md:flex-row flex-col gap-6">
+                            <div className="md:w-1/3 w-full">
                                 <h3 className="text-2xl font-semibold">{job.title}</h3>
                                 <p className="text-slate-500">at {job.company}</p>
                             </div>
-                            <div className="w-2/5 flex items-center justify-between">
+                            <div className="md:w-2/5 flex items-center justify-between w-full">
                                 <p className="text-gray-500 w-3/4 overflow-ellipsis flex items-center"><Image src='/locaion-icon.png' className="inline-block mr-2" alt="" width={20} height={20}/><p className="overflow-hidden whitespace-nowrap text-ellipsis">{job.location}</p></p>
                                 <p className="text-gray-500 w-1/2"><Image src='/icons8-receive-cash-50.png' className="inline-block mr-2" alt="" width={20} height={20}/>&#8377; {job.stipend}</p>
                             </div>
-                            <div className="w-1/4 flex items-center justify-between">
+                            <div className="md:w-1/4 flex items-center justify-between w-full">
                                 {
                                     appliedJobs.includes(job.id) && (
-                                        <div className="bg-green-600 text-white px-3 py-1 rounded-md">Applied</div>
+                                        <div className="bg-green-600 text-white md:px-3 py-1 px-1 rounded-md">Applied</div>
                                     )
                                 }
-                                <Link href={`/jobs/view/${job.id}?applied=${appliedJobs.includes(job.id)}`} className="px-6 py-2 bg-slate-900 text-white rounded-md ml-auto">View details</Link>
+                                <Link href={`/jobs/view/${job.id}?applied=${appliedJobs.includes(job.id)}`} className="md:px-6 px-2 py-2 bg-slate-900 text-white rounded-md ml-auto">View details</Link>
                             </div>
                         </div>
                     )

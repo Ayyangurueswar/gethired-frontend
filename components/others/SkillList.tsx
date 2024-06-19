@@ -37,7 +37,7 @@ const SkillList = ({skills, addSkill, removeSkill}: {
                         }
                         setNewSkill('');
                         setEditing(false);
-                    }}>Add</button>
+                    }}>Done</button>
                 ) : (
                     <button className='text-sm text-blue-500' onClick={(e) => {e.preventDefault(); setEditing(true)}}>+ Add skill</button>
                 )

@@ -77,14 +77,14 @@ const ReviewApplications = ({jobId, jwt}: {
           <p className='text-2xl font-semibold mt-20'>No applications yet.</p>
         ) : (
           <>
-            <div className='px-20 mt-20 w-1/3'>
+            <div className='md:px-20 px-6 mt-20 md:w-1/3 w-full'>
               <div className='w-full flex items-center justify-between relative'>
                 <button className={`${!shortlisted ?  'text-white z-10' : 'bg-slate-200'} rounded-lg py-1 w-2/5`} onClick={toggleMode}>All ({filteredApplications.length})</button>
                 <button className={`${shortlisted ? 'text-white z-10' : 'bg-slate-200'} rounded-lg py-1 w-1/2`} onClick={toggleMode}>Shortlisted ({shortlistedApplications.length})</button>
                 <motion.div className={`${shortlisted ? 'right-0 w-1/2' : 'left-0 w-2/5'} rounded-lg h-full bg-slate-900 absolute`} layout transition={{duration: 0.3}}></motion.div>
               </div>
             </div>
-            <form className="w-full px-20 mb-10">
+            <form className="w-full px-20 hidden md:block">
               <div className="w-full flex items-end justify-between">
                   <input name="name" placeholder="Search by name" className="px-4 py-2 rounded-md border border-slate-700 w-1/3 outline-none" onChange={handleChange}/>
                   <input name='skills' placeholder='Search by skills' className="px-4 py-2 rounded-md border border-slate-700 w-1/3 outline-none" onChange={handleChange}/>
@@ -94,7 +94,7 @@ const ReviewApplications = ({jobId, jwt}: {
                   </div>
               </div>
             </form>
-            <div className='w-full px-20 grid grid-cols-3 gap-14 mb-10'>
+            <div className='w-full md:px-20 px-6 grid md:grid-cols-3 sm:max-md:grid-cols-2 grid-cols-1 gap-14 my-10'>
               {(shortlisted && shortlistedApplications.length === 0) ? <p className='text-xl font-semibold'>No shortlisted applications yet</p>
               : (shortlisted ? shortlistedApplications : filteredApplications).map((application) => (
                   <CandidateApplication application={application} jwt={jwt} key={application.id} shortlisted={application.status === 'Shortlisted'}/>
