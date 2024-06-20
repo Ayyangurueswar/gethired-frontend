@@ -29,8 +29,9 @@ const Modal = ({show, onClose, children}: {
       </motion.div>
     ): null}
   </AnimatePresence>
-  if(isBrowser) {
-    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root"));
+  const modalRoot = document.getElementById("modal-root")
+  if(isBrowser && modalRoot) {
+    return ReactDOM.createPortal(modalContent, modalRoot);
   }
   else{
     return null;

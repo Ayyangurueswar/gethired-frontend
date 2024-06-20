@@ -74,11 +74,18 @@ const LatestJobs =  ({posted, jwt}: {
   if(loading){
     return <h1>Loading...</h1>
   }
-  if(jobs.length === 0){
+  if(jobs.length === 0 && posted){
     return (
       <div className="w-4/5 h-1/3 flex flex-col gap-8 items-center">
         <p>You have not posted a job</p>
         <Link href='/jobs/post' className="px-6 py-2 rounded-md bg-slate-900 text-white">Post a job</Link>
+      </div>
+    )
+  }
+  else if(jobs.length === 0){
+    return (
+      <div className="w-4/5 h-1/3 flex flex-col gap-8 items-center">
+        <p>No jobs available right now</p>
       </div>
     )
   }
