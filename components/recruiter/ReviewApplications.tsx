@@ -59,7 +59,16 @@ const ReviewApplications = ({jobId, jwt}: {
         setFilteredApplications(filtered);
         return;
       }
-      setShortlistedApplications(applications.filter((app) => (app.status === 'Shortlisted') && app[e.target.name].toLowerCase().includes(e.target.value.toLowerCase())));
+      else if(e.target.name === 'name'){
+        const filtered = applications.filter((app) => (app.status === 'Shortlisted') && app.user.username.toLowerCase().includes(e.target.value.toLowerCase()));
+        setShortlistedApplications(filtered);
+        return;
+      }
+      else if(e.target.name === 'skills'){
+        const filtered = applications.filter((app) => (app.status === 'Shortlisted') && app.skills?.toLowerCase().includes(e.target.value.toLowerCase()));
+        setShortlistedApplications(filtered);
+        return;
+      }
     }
     else{
       if(e.target.name ==='startDate'){
@@ -67,7 +76,16 @@ const ReviewApplications = ({jobId, jwt}: {
         setFilteredApplications(filtered);
         return;
       }
-      setFilteredApplications(applications.filter((app) => (app.status !== 'Shortlisted') && app[e.target.name].toLowerCase().includes(e.target.value.toLowerCase())));
+      else if(e.target.name === 'name'){
+        const filtered = applications.filter((app) => (app.status !== 'Shortlisted') && app.user.username.toLowerCase().includes(e.target.value.toLowerCase()));
+        setFilteredApplications(filtered);
+        return;
+      }
+      else if(e.target.name ==='skills'){
+        const filtered = applications.filter((app) => (app.status !== 'Shortlisted') && app.skills?.toLowerCase().includes(e.target.value.toLowerCase()));
+        setFilteredApplications(filtered);
+        return;
+      }
     }
   }
   return (

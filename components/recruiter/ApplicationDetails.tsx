@@ -8,7 +8,31 @@ import Link from 'next/link';
 import Modal from '../modals/Modal';
 import { useNotifs } from '@/context/NotificationContext';
 import Footer from '../others/Footer';
-import { Application } from '@/constants/types';
+import { Job } from '@/constants/types';
+
+interface Application {
+    id: string;
+    name: string;
+    skills?: string;
+    contact: string;
+    location: string;
+    canStartFrom: string;
+    experience?: string;
+    job: {
+        data: {
+            id: number,
+            attributes: Job,
+        },
+        meta?: any
+    };
+    resume?: any;
+    user: any;
+    cover: string;
+    status: string;
+    applicationFor: number
+    createdAt?: string
+    updatedAt?: string;
+}
 
 const ApplicationDetails = ({jwt, id}: {
     jwt: string,
