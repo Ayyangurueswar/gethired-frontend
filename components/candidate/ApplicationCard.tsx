@@ -3,6 +3,7 @@ import { API_URL } from "@/config"
 import Image from "next/image"
 import { useEffect, useState } from "react";
 import { Job, Application } from "@/constants/types";
+import LoadingSpinner from "../others/LoadingSpinner";
 
 const ApplicationCard = ({application}: {
     application: Application,
@@ -24,7 +25,7 @@ const ApplicationCard = ({application}: {
             </div>
             <div className={`${application.status === 'Under review' ? 'bg-yellow-700': application.status === 'Shortlisted' ? 'bg-green-600' : 'bg-red-600'} text-white rounded-full md:px-3 px-2 py-1 max-md:mt-auto`}>{application.status}</div>
         </div>
-    : <p>Loading</p>)
+    : <LoadingSpinner size={30} style={{marginRight: "auto", marginLeft: "auto"}}/>)
 }
 
 export default ApplicationCard

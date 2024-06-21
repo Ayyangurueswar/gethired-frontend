@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/others/Footer";
 import { Job, Application } from "@/constants/types";
+import LoadingSpinner from "../others/LoadingSpinner";
 
 const ViewJobs = ({jwt}: {
     jwt: string;
@@ -106,7 +107,7 @@ const ViewJobs = ({jwt}: {
         </form>
         <div className="w-full px-14 grid md:grid-cols-1 sm:max-md:grid-cols-2 grid-cols-1 gap-6 md:my-10 mt-24 mb-10">
             {
-                loading ? <p className="text-center text-3xl">Loading</p> : jobs.length > 0 ? jobs.map((job, index) => {
+                loading ? <LoadingSpinner style={{marginRight: "auto", marginLeft: "auto"}}/> : jobs.length > 0 ? jobs.map((job, index) => {
                     return (
                         <div key={index} className="w-full flex items-center md:justify-between px-6 py-4 shadow-md rounded-md shadow-slate-600 hover:scale-105 transition md:flex-row flex-col gap-6">
                             <div className="md:w-1/3 w-full">

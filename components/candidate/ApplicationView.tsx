@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { API_URL } from "@/config";
 import ApplicationCard from "@/components/candidate/ApplicationCard";
 import Footer from "../others/Footer";
+import LoadingSpinner from "../others/LoadingSpinner";
 
 const ApplicationView = ({jwt}: {
     jwt: string;
@@ -88,7 +89,7 @@ const ApplicationView = ({jwt}: {
             </form>
             <div className="w-full px-14 grid sm:max-md:grid-cols-2 grid-cols-1 gap-6 md:my-10 mt-24 mb-10">
                 {
-                    loading ? <p className="text-center text-3xl">Loading</p> : filteredApplications.length > 0 ? filteredApplications.map((application) => 
+                    loading ? <LoadingSpinner size={30} style={{marginRight: "auto", marginLeft: "auto"}}/> : filteredApplications.length > 0 ? filteredApplications.map((application) => 
                         <ApplicationCard application={application} key={application.id}/>
                     ) : <p className="text-center text-3xl">No matching results</p>
                 }

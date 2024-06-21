@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick"
 import { Job } from "@/constants/types";
+import LoadingSpinner from "./LoadingSpinner";
 
 const LatestJobs =  ({posted, jwt}: {
   posted?: boolean;
@@ -43,7 +44,7 @@ const LatestJobs =  ({posted, jwt}: {
     autoplay: jobs.length > 3,
     speed: 2000,
     arrows: false,
-    className: 'w-4/5',
+    className: 'w-4/5 h-1/3',
     variableWidth: jobs.length <= 3,
     responsive: [
       {
@@ -72,7 +73,7 @@ const LatestJobs =  ({posted, jwt}: {
     ]
   }
   if(loading){
-    return <h1>Loading...</h1>
+    return <LoadingSpinner />
   }
   if(jobs.length === 0 && posted){
     return (
@@ -92,7 +93,7 @@ const LatestJobs =  ({posted, jwt}: {
   return (
     <Slider {...settings}>
         {jobs.map((job, index) => (
-            <div key={index} className="border h-full border-slate-800 rounded px-6 py-4" style={{height: '50%'}}>
+            <div key={index} className="border h-full border-slate-800 rounded px-6 py-4">
               <div className="flex flex-col h-full justify-between w-full">
                 <div className="flex flex-col gap-4">
                       <div>

@@ -9,6 +9,7 @@ import Modal from '../modals/Modal';
 import { useNotifs } from '@/context/NotificationContext';
 import Footer from '../others/Footer';
 import { Job } from '@/constants/types';
+import LoadingSpinner from '../others/LoadingSpinner';
 
 interface Application {
     id: string;
@@ -56,8 +57,12 @@ const ApplicationDetails = ({jwt, id}: {
         setLoading(false);
     })
   }, [])
-  if(!applicationDetails){
-    return <p>Loading...</p>
+  if(!applicationDetails || loading){
+    return (
+        <div className='w-full h-screen flex items-center justify-center'>
+            <LoadingSpinner size={60} />
+        </div>
+    )
   }
   const handleShortList = async () => {
     setLoading(true);
@@ -131,11 +136,6 @@ const ApplicationDetails = ({jwt, id}: {
         addNotification({content: `Something went wrong: ${data.error.message}`, type: 'error'});
     }
   }
-  if(loading){
-    return (
-        <p>Loading...</p>
-    )
-  }
   return (
     <div className='w-full'>
         <DashboardHeader progress={scrollYProgress}/>
@@ -143,7 +143,7 @@ const ApplicationDetails = ({jwt, id}: {
             <div className='flex flex-col md:flex-row items-center gap-6 md:justify-between mt-24'>
                 <div className='flex flex-col gap-4 md:w-1/3 w-full'>
                     <p className='text-3xl font-semibold'>{applicationDetails.name}</p>
-                    <p>Cover: {applicationDetails.cover}</p>
+                    <p className='text-wrap'>Cover: {applicationDetails.cover}</p>
                     {applicationDetails.resume.data && <Link href={applicationDetails.resume.data.attributes.url} className='px-6 text-center py-2 bg-slate-900 text-white rounded-md sm:w-1/2'>View resume</Link>}
                 </div>
                 <div className='flex items-center md:w-1/3 justify-between w-full'>
@@ -225,7 +225,7 @@ const ApplicationDetails = ({jwt, id}: {
                 <button onClick={handleShortList}>Yes</button>
                 <motion.button className="px-6 py-2 bg-slate-900 text-white rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={() => setShortlist(false)}>No</motion.button>
             </div>
-            {loading && <p>Loading...</p>}
+            {loading && <LoadingSpinner size={20} />}
           </div>
       </Modal>
       <Modal onClose={() => setReject(false)} show={reject}>
@@ -235,6 +235,7 @@ const ApplicationDetails = ({jwt, id}: {
                 <button onClick={handleReject}>Yes</button>
                 <motion.button className="px-6 py-2 bg-slate-900 text-white rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={() => setReject(false)}>No</motion.button>
             </div>
+            {loading && <LoadingSpinner size={20} />}
           </div>
       </Modal>
       <Modal onClose={() => setRemove(false)} show={remove}>
@@ -244,6 +245,7 @@ const ApplicationDetails = ({jwt, id}: {
                 <button onClick={handleRemove}>Yes</button>
                 <motion.button className="px-6 py-2 bg-slate-900 text-white rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={() => setRemove(false)}>No</motion.button>
             </div>
+            {loading && <LoadingSpinner size={20} />}
           </div>
       </Modal>
       <Footer />

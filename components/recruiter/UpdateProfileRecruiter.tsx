@@ -9,6 +9,7 @@ import Modal from '../modals/Modal';
 import UploadImage from '../modals/UploadImage';
 import { useNotifs } from '@/context/NotificationContext';
 import UpdatePassword from '../modals/UpdatePassword';
+import LoadingSpinner from '../others/LoadingSpinner';
 
 const UpdateProfileRecruiter = ({jwt}: {
     jwt: string,
@@ -37,7 +38,11 @@ const UpdateProfileRecruiter = ({jwt}: {
       addNotification({content: 'Details updated', type: 'success'});
   }
   if(!user){
-    return <p>Loading...</p>
+    return(
+      <div className='w-full h-screen flex items-center justify-center'>
+        <LoadingSpinner size={60}/>
+      </div>
+    )
   }
   return (
     <div className='w-full overflow-y-auto'>

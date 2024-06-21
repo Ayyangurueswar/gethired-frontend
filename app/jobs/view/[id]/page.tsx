@@ -10,6 +10,7 @@ import Modal from "@/components/modals/Modal";
 import ApplicationModal from "@/components/modals/ApplicationModal";
 import { useSearchParams } from "next/navigation";
 import { Job } from "@/constants/types";
+import LoadingSpinner from "@/components/others/LoadingSpinner";
 
 const Page = ({params}: {
     params: {
@@ -36,7 +37,7 @@ const Page = ({params}: {
     <div className="w-full overflow-y-auto">
       {!show && <DashboardHeader progress={scrollYProgress}/>}
       {
-        loading || !jobDetails ?  <h1 className="text-center text-3xl mt-20">Loading</h1> : (
+        loading || !jobDetails ?  <LoadingSpinner style={{marginRight: "auto", marginLeft: "auto"}}/> : (
           <div className="mt-24 px-14 w-full flex flex-col gap-10">
               <div className="flex items-center justify-between w-full flex-col gap-4 md:flex-row">
                 <div className="flex gap-8 items-start">

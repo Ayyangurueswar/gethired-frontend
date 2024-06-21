@@ -5,6 +5,7 @@ import { getJWT } from "@/actions/action";
 import { API_URL } from "@/config";
 import { useNotifs } from "@/context/NotificationContext";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "../others/LoadingSpinner";
 
 const ApplicationModal = ({jobDetails, user, id}: {
     jobDetails: any;
@@ -87,6 +88,7 @@ const ApplicationModal = ({jobDetails, user, id}: {
             </button>
             {resume && <p>Selected file: {resume.name}</p>}
         </div>
+        {loading && <LoadingSpinner size={30} style={{marginRight: "auto", marginLeft: "auto"}}/>}
         <motion.button className="bg-slate-900 text-white px-6 py-2 sm:w-1/4 rounded-md mx-auto" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={handleSubmit} disabled={loading}>{loading ? 'Applying' : 'Apply'}</motion.button>
     </div>
   )

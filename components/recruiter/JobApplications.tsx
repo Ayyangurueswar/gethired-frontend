@@ -5,6 +5,7 @@ import DashboardHeader from '../others/DashboardHeader';
 import { API_URL } from '@/config';
 import Footer from '../others/Footer';
 import RecruiterApplicationView from './RecruiterApplicationView';
+import LoadingSpinner from '../others/LoadingSpinner';
 
 const JobApplications = ({jwt}: {
     jwt: string,
@@ -61,7 +62,9 @@ const JobApplications = ({jwt}: {
   }
   if(loading){
     return (
-      <p className='font-bold text-3xl'>Loading...</p>
+      <div className='w-full h-screen flex items-center justify-center'>
+        <LoadingSpinner size={60}/>
+      </div>
     )
   }
   return (
@@ -104,7 +107,7 @@ const JobApplications = ({jwt}: {
       </form>
       <div className="w-full md:px-14 px-7 flex flex-col gap-6 max-md:mt-24 my-10">
             {
-                loading ? <p className="text-center text-3xl">Loading</p> : filteredJobs.length > 0 ? filteredJobs.map((job) => 
+                loading ? <LoadingSpinner style={{marginLeft: "auto", marginRight: "auto"}} /> : filteredJobs.length > 0 ? filteredJobs.map((job) => 
                 <RecruiterApplicationView job={job} key={job.id} jwt={jwt}/>): <p className="text-center text-3xl">No matching results</p>
             }
       </div>

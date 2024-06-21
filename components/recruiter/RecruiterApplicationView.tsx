@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import Modal from '../modals/Modal';
 import { API_URL } from '@/config';
 import { useNotifs } from '@/context/NotificationContext';
+import LoadingSpinner from '../others/LoadingSpinner';
 
 const RecruiterApplicationView = ({job, jwt}: {
     job: any,
@@ -51,7 +52,7 @@ const RecruiterApplicationView = ({job, jwt}: {
                     <button onClick={handleCloseOpening}>Yes</button>
                     <motion.button className="px-6 py-2 bg-slate-900 text-white rounded-md" whileHover={{scale: 1.1}} whileTap={{scale: 0.9}} onClick={() => setShow(false)}>No</motion.button>
                 </div>
-                {loading && <p>Loading...</p>}
+                {loading && <LoadingSpinner style={{marginRight: "auto", marginLeft: "auto"}}/>}
             </div>
             </Modal>
         </div>

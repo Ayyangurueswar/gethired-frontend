@@ -6,6 +6,7 @@ import { API_URL } from '@/config';
 import Footer from '../others/Footer';
 import CandidateApplication from './CandidateApplication';
 import { Job, User } from '@/constants/types';
+import LoadingSpinner from '../others/LoadingSpinner';
 
 interface Application {
   id: string;
@@ -34,10 +35,12 @@ const ReviewApplications = ({jobId, jwt}: {
   const [filteredApplications, setFilteredApplications] = useState<Application[]>([]);
   const [shortlisted, setShortlisted] = useState<boolean>(false);
   const [shortlistedApplications, setShortlistedApplications] = useState<Application[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const toggleMode = () => {
     setShortlisted(!shortlisted);
   }
   useEffect(() => {
+    setLoading(true);
     fetch(`${API_URL}/api/applications/getApplications`, {
         method: 'POST',
         headers: {
@@ -51,6 +54,7 @@ const ReviewApplications = ({jobId, jwt}: {
       setApplications(data);
       setShortlistedApplications(data.filter((app: Application) => app.status === 'Shortlisted'));
     })
+    setLoading(false);
   }, []);
   const handleChange = (e: any) => {
     if(shortlisted){
@@ -87,6 +91,13 @@ const ReviewApplications = ({jobId, jwt}: {
         return;
       }
     }
+  }
+  if(loading){
+    return (
+      <div className='w-full h-screen flex items-center justify-center'>
+        <LoadingSpinner size={60} color='black'/>
+      </div>
+    )
   }
   return (
     <div className='w-full overflow-y-auto min-h-screen'>

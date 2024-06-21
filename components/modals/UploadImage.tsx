@@ -2,6 +2,7 @@
 import { API_URL } from '@/config';
 import React, { useState } from 'react'
 import { useNotifs } from '@/context/NotificationContext';
+import LoadingSpinner from '../others/LoadingSpinner';
 
 const UploadImage = ({setImagePreview, jwt, userId, imageUploaded}: {
     setImagePreview: React.Dispatch<React.SetStateAction<string>>,
@@ -51,7 +52,7 @@ const UploadImage = ({setImagePreview, jwt, userId, imageUploaded}: {
                 }}}/>
             <button className='bg-slate-900 text-white px-4 py-2 rounded-md'>Upload an image</button>
         </div>
-        {loading && (<p>Uploading...</p>)}
+        {loading && <LoadingSpinner size={30} style={{marginRight: "auto", marginLeft: "auto"}}/>}
         {image && (
             <p>Selected file: {image.name}</p>
         )}
