@@ -35,7 +35,7 @@ export default function Home() {
                 <Link href='/account/signup/candidate' className="border border-slate-500 rounded-xl text-lg px-6 py-4">Find your next job</Link>
             </div>
         </motion.div>
-        <motion.div className="md:px-14 px-8 mb-10">
+        <motion.div className="md:px-14 px-8 h-screen">
           <p className="font-bold mb-2">Quotes</p>
           <h2 className="text-3xl font-bold mb-6">From our users</h2>
           <Testimonials />
